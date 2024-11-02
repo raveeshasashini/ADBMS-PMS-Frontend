@@ -26,7 +26,6 @@ function App() {
           <Route path="/user-management" element={<UserList/> } />
 
           {/* Branch Management routings ---------------START */}
-          <Route path="/branches" element={<Branches/> } />
 
           {/* Branch Management routings ---------------END */}
 

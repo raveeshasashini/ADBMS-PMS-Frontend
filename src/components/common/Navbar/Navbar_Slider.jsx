@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import UserList from '../UserManagement/UserList';
+import Branches from '../../../pages/Branch Management/Branches';
 
 
 export default function Navbar_Slider() {
@@ -8,6 +9,7 @@ export default function Navbar_Slider() {
 
     const handleNavClick = (component) => {
         setActiveComponent(component);
+        
     }
 
     return (
@@ -24,7 +26,7 @@ export default function Navbar_Slider() {
                     />
                     <p className="mt-2">Hi, Mr Lakindu</p>
                 </div>
-                {['Dashboard', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory | Report', 'User Manage', 'Parches Manage'].map((item, index) => (
+                {['Dashboard','Branch Manage', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory | Report', 'User Manage', 'Parches Manage'].map((item, index) => (
                     <a 
                     key={index} 
                     className="nav-link text-white my-2 p-2 rounded" 
@@ -45,6 +47,12 @@ export default function Navbar_Slider() {
                 {/* Conditionally render components based on the activeComponent */}
                 {activeComponent === 'User Manage' ? (
                     <UserList /> // Display UserList component when "User Manage" is active
+                ) : 
+                activeComponent === 'Branch Manage' ? (
+                <>
+                {/* Call Branches page */}
+                <Branches />
+                </>
                 ) : (
                     <div>
                         <h2>Welcome to the {activeComponent}</h2>
