@@ -1,21 +1,38 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom"
 import LoginPage from "./components/auth/LoginPage"
+import Navbar_Slider from "./components/common/Navbar/Navbar_Slider";
+import UserList from "./components/common/UserManagement/UserList";
+
 
 function App() {
 
-  return (
-    <>
+  
 
-      <BrowserRouter>
+  const AppLayout = () =>{
+    const location = useLocation();
+    const isLoginPage = location.pathname === '/login' || location.pathname === '/';
+
+    return(
+      <>
+        {!isLoginPage && <Navbar_Slider/>}
         <Routes>
 
           {/* login */}
           <Route path="/" element={<LoginPage/>} />
           <Route path="/login" element={<LoginPage/>} />
-
-          {/*  */}
+          
+          {/* user management */}
+          <Route path="/user-management" element={<UserList/> } />
 
         </Routes>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <BrowserRouter>
+        <AppLayout/>
       </BrowserRouter>
     
     </>
