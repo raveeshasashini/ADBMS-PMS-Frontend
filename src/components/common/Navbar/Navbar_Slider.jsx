@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
-import UserList from '../UserManagement/UserList';
+import UserList from '../../UserManagement/UserList';
 
 
 export default function Navbar_Slider() {
@@ -13,7 +13,7 @@ export default function Navbar_Slider() {
     return (
         <div className="d-flex">
             {/* Sidebar */}
-            <div className="sidebar p-3 text-white" style={{ backgroundColor: '#184169', height: '100vh' }}>
+            <div className="sidebar p-3 text-white" style={{ backgroundColor: '#184169', height: '100vh',width:'250px'}}>
                 <div className="profile text-center mb-4">
                     <img
                         src="https://storage.googleapis.com/a1aa/image/CaEBT5edUnVe7kCV6JhHkQ27nfauKltvPMjGecVCFC0b5czOB.jpg"
@@ -22,14 +22,15 @@ export default function Navbar_Slider() {
                         height="80"
                         className="rounded-circle"
                     />
-                    <p className="mt-2">Hi, Mr Lakindu</p>
+                    <p className="mt-2">Hi, Lakindu</p>
                 </div>
                 {['Dashboard', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory | Report', 'User Manage', 'Parches Manage'].map((item, index) => (
                     <a 
                     key={index} 
                     className="nav-link text-white my-2 p-2 rounded" 
-                    style={{ backgroundColor: item === item ? '#184169' : '' }}
+                    style={{ backgroundColor: item === item ? '#184169' : '' ,cursor:'pointer'}}
                     onClick={()=>handleNavClick(item)}
+                    
                     >
                         {item}
                     </a>
