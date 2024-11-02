@@ -1,7 +1,23 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import LoginPage from "./components/auth/LoginPage"
+
 function App() {
+
   return (
     <>
-      <h1 className=" mt-5 m-lg-5 m-lg-4">PMS - ADBMS</h1>
+
+      <BrowserRouter>
+        <Routes>
+
+          {/* login */}
+          <Route path="/" element={<LoginPage/>} />
+          <Route path="/login" element={<LoginPage/>} />
+
+          {/*  */}
+
+        </Routes>
+      </BrowserRouter>
+    
     </>
   )
 }
