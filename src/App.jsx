@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom"
 import LoginPage from "./components/auth/LoginPage"
 import Navbar_Slider from "./components/common/Navbar/Navbar_Slider";
 import UserList from "./components/common/UserManagement/UserList";
+import Branches from "./pages/Branch Management/Branches";
 
 
 function App() {
@@ -23,6 +24,12 @@ function App() {
           
           {/* user management */}
           <Route path="/user-management" element={<UserList/> } />
+
+          {/* Branch Management routings ---------------START */}
+          <Route path="/branches" element={<Branches/> } />
+
+          {/* Branch Management routings ---------------END */}
+
 
         </Routes>
       </>
