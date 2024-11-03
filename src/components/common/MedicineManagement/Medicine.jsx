@@ -101,9 +101,9 @@ export default function Medicine() {
         <input style={styles.input} type="text" placeholder="Read ID" />
         <input style={styles.input} type="text" placeholder="Medicine Name" />
         <input style={styles.input} type="text" placeholder="Manufacture" />
-        <input style={styles.input} type="text" placeholder="Price" />
+        <input style={styles.input} type="number" placeholder="Price" />
         <input style={styles.input} type="text" placeholder="Stock" />
-        <input style={styles.input} type="text" placeholder="Expire Date" />
+        <input style={styles.input} type="date" placeholder="Expire Date" />
       </div>
 
       <div style={styles.buttons}>
