@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import UserList from '../UserManagement/UserList';
 import InventoryList from '../../inventory/InventoryManagement/InventoryList';
+import SupplierList from '../../inventory/InventoryManagement/SupplierList';
 
 
 export default function Navbar_Slider() {
@@ -25,12 +26,12 @@ export default function Navbar_Slider() {
                     />
                     <p className="mt-2">Hi, Mr Lakindu</p>
                 </div>
-                {['Dashboard', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory | Report', 'User Manage', 'Parches Manage'].map((item, index) => (
-                    <a 
-                    key={index} 
-                    className="nav-link text-white my-2 p-2 rounded" 
-                    style={{ backgroundColor: item === item ? '#184169' : '' }}
-                    onClick={()=>handleNavClick(item)}
+                {['Dashboard', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory | Report', 'User Manage', 'Parches Manage', 'Supplier'].map((item, index) => (
+                    <a
+                        key={index}
+                        className="nav-link text-white my-2 p-2 rounded"
+                        style={{ backgroundColor: item === item ? '#184169' : '' }}
+                        onClick={() => handleNavClick(item)}
                     >
                         {item}
                     </a>
@@ -47,14 +48,19 @@ export default function Navbar_Slider() {
                 {activeComponent === 'User Manage' ? (
                     <UserList /> // Display UserList component when "User Manage" is active
                 ) : activeComponent === 'Inventory | Report' ? (
-                    <InventoryList />// Display Inventory component when "Inventory" is active
-                ): (
+                    <InventoryList /> // Display Inventory component when "Inventory" is active
+                ) : activeComponent === 'Supplier' ? (
+                    <SupplierList/>
+                   // Display Inventory component when "Supplier" is active
+                ) : (
                     <div>
                         <h2>Welcome to the {activeComponent}</h2>
                         <p>This is the {activeComponent} section of the Pharmacy Management System.</p>
                     </div>
                 )}
-                
+
+
+
             </div>
 
         </div>
