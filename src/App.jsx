@@ -1,7 +1,9 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom"
+import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from "./components/auth/LoginPage"
 import Navbar_Slider from "./components/common/Navbar/Navbar_Slider";
 import UserList from "./components/common/UserManagement/UserList";
+import InventoryList from "./components/inventory/InventoryManagement/InventoryList";
 
 
 function App() {
@@ -23,6 +25,9 @@ function App() {
           
           {/* user management */}
           <Route path="/user-management" element={<UserList/> } />
+
+          {/*Inventory management*/}
+          <Route path="/inventory-management" element={<></>}/>
 
         </Routes>
       </>

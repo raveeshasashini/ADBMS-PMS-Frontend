@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import UserList from '../UserManagement/UserList';
+import InventoryList from '../../inventory/InventoryManagement/InventoryList';
 
 
 export default function Navbar_Slider() {
@@ -45,12 +46,15 @@ export default function Navbar_Slider() {
                 {/* Conditionally render components based on the activeComponent */}
                 {activeComponent === 'User Manage' ? (
                     <UserList /> // Display UserList component when "User Manage" is active
-                ) : (
+                ) : activeComponent === 'Inventory | Report' ? (
+                    <InventoryList />// Display Inventory component when "Inventory" is active
+                ): (
                     <div>
                         <h2>Welcome to the {activeComponent}</h2>
                         <p>This is the {activeComponent} section of the Pharmacy Management System.</p>
                     </div>
                 )}
+                
             </div>
 
         </div>
