@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import UserList from '../../UserManagement/UserList';
+import Dashboard from '../../Dashboard/Dashboard';
 
 
 export default function Navbar_Slider() {
@@ -39,14 +40,19 @@ export default function Navbar_Slider() {
 
             {/* Main Content */}
             <div className="content flex-grow-1 p-4">
-                <div className="header d-flex justify-content-between align-items-center bg-light p-3 rounded mb-4">
+                <div className="header d-flex justify-content-between align-items-center bg-light p-3 rounded mb-4 shadow">
                     <h1>Pharmacy Management System</h1>
                     <div className="date-time text-muted">09 September 2024 - 11.48 AM</div>
                 </div>
                 {/* Conditionally render components based on the activeComponent */}
                 {activeComponent === 'User Manage' ? (
                     <UserList /> // Display UserList component when "User Manage" is active
-                ) : (
+                ) :
+                activeComponent === 'Dashboard' ? (
+                    <Dashboard/> // Display Dashboard component when "Dashboard" is active
+                ) :
+
+                (
                     <div>
                         <h2>Welcome to the {activeComponent}</h2>
                         <p>This is the {activeComponent} section of the Pharmacy Management System.</p>
