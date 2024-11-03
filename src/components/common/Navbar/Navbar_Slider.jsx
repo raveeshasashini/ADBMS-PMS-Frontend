@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import UserList from '../UserManagement/UserList';
+import Medicine from '../MedicineManagement/Medicine';
 
 
 export default function Navbar_Slider() {
@@ -45,6 +46,9 @@ export default function Navbar_Slider() {
                 {/* Conditionally render components based on the activeComponent */}
                 {activeComponent === 'User Manage' ? (
                     <UserList /> // Display UserList component when "User Manage" is active
+                ) 
+                : activeComponent === 'Medicine' ? (
+                    <Medicine/> // Display Dashboard component when "Medicine" is active
                 ) : (
                     <div>
                         <h2>Welcome to the {activeComponent}</h2>
