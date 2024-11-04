@@ -11,6 +11,11 @@ export default function Navbar_Slider() {
         setActiveComponent(component);
     }
 
+    const logout = () => {
+        localStorage.removeItem('user');
+        window.location.href="/";
+    }
+
     return (
         <div className="d-flex">
             {/* Sidebar */}
@@ -28,7 +33,7 @@ export default function Navbar_Slider() {
                 {['Dashboard', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory | Report', 'User Manage', 'Parches Manage'].map((item, index) => (
                     <a 
                     key={index} 
-                    className="nav-link text-white my-2 p-2 rounded" 
+                    className="nav-link text-white my-2 p-2 rounded border-danger" 
                     style={{ backgroundColor: item === item ? '#184169' : '' ,cursor:'pointer'}}
                     onClick={()=>handleNavClick(item)}
                     
@@ -36,6 +41,25 @@ export default function Navbar_Slider() {
                         {item}
                     </a>
                 ))}
+                <div style={{
+                    position: 'relative',
+                    height: '200px'
+                }}>
+                    <a className='nav-link text-white my-2 p-2 rounded border-danger'
+                    style={{ 
+                        backgroundColor:'#184169',
+                        cursor:'pointer',
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0
+                    
+                    }}
+                    onClick={logout}
+                    >
+                        Logout
+                    </a>
+                </div>
             </div>
 
             {/* Main Content */}

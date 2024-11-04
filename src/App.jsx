@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom"
 import LoginPage from "./components/auth/LoginPage"
 import Navbar_Slider from "./components/common/Navbar/Navbar_Slider";
 import UserList from "./components/UserManagement/UserList";
+import NotFoundPage from "./pages/common/NotFoundPage";
 
 
 function App() {
@@ -23,6 +24,12 @@ function App() {
           
           {/* user management */}
           <Route path="/user-management" element={<UserList/> } />
+
+          {/* dash board */}
+          <Route path="/landing-page" />
+
+          {/* 404 */}
+          <Route path="*" element={<NotFoundPage/>}/>
 
         </Routes>
       </>
