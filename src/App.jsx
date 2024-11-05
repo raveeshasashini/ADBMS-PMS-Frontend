@@ -9,8 +9,6 @@ import SalesReport from "./components/ReportGenerate/SalesReport";
 
 function App() {
 
-  
-
   const AppLayout = () =>{
     const location = useLocation();
     const isLoginPage = location.pathname === '/login' || location.pathname === '/';
