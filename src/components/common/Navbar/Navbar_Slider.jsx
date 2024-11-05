@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
-import UserList from '../UserManagement/UserList';
+import UserList from '../../UserManagement/UserList';
 import Medicine from '../MedicineManagement/Medicine';
 import Dashboard from '../../Dashboard/Dashboard';
 import ReportGenerate from '../../ReportGenerate/ReportGenerate';
