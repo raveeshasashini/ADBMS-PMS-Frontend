@@ -26,7 +26,7 @@ export default function Navbar_Slider() {
                     />
                     <p className="mt-2">Hi, Mr Lakindu</p>
                 </div>
-                {['Dashboard', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory | Report', 'User Manage', 'Parches Manage', 'Supplier'].map((item, index) => (
+                {['Dashboard', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory | Report', 'User Manage', 'Parches Manage', 'Suppliers Manage'].map((item, index) => (
                     <a
                         key={index}
                         className="nav-link text-white my-2 p-2 rounded"
@@ -49,7 +49,7 @@ export default function Navbar_Slider() {
                     <UserList /> // Display UserList component when "User Manage" is active
                 ) : activeComponent === 'Inventory | Report' ? (
                     <InventoryList /> // Display Inventory component when "Inventory" is active
-                ) : activeComponent === 'Supplier' ? (
+                ) : activeComponent === 'Suppliers Manage' ? (
                     <SupplierList/>
                    // Display Inventory component when "Supplier" is active
                 ) : (

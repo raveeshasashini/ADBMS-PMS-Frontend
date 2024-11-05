@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import React from 'react';
-import { Link } from 'react-router-dom';
+
 
 export default function InventoryList() {
     const [inventoryData, setInventoryData] = useState([]);
@@ -13,9 +13,11 @@ export default function InventoryList() {
     });
     const [updateMode, setUpdateMode] = useState(false); 
     const [updateId, setUpdateId] = useState(null); 
+    const [suppliers, setSuppliers] = useState([]);
 
     useEffect(() => {
         fetchInventoryData();
+        fetchSupplierList();
     }, []);
 
     const fetchInventoryData = () => {
@@ -24,6 +26,16 @@ export default function InventoryList() {
             .then((data) => setInventoryData(data))
             .catch((error) => console.error("Error fetching inventory data:", error));
     };
+    const fetchSupplierList = () => {
+        fetch("http://localhost:8080/api/v1/getsuppliers") // Replace with your endpoint
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setSuppliers(data);
+            })
+            .catch((error) => console.error("Error fetching supplier list:", error));
+    };
+
 
     // Handle form input changes
     const handleInputChange = (e) => {
@@ -148,14 +160,27 @@ export default function InventoryList() {
                     </div>
                     <div className="col-md-3">
                         <label className="form-label">Supplier Id</label>
-                        <input
+                        {/* <input
                             type="number"
                             min={1}
                             name="supplierId"
                             value={formData.supplierId}
                             onChange={handleInputChange}
                             className="form-control"
-                        />
+                        /> */}
+                        <select
+                            name="supplierId"
+                            value={formData.supplierId}
+                            onChange={handleInputChange}
+                            className="form-control"
+                        >
+                            <option value="">Select Supplier</option>
+    {suppliers.map((supplier) => (
+        <option key={supplier.supplierId} value={supplier.supplierId}>
+            {supplier.supplierName} (ID: {supplier.supplierId})
+        </option>
+    ))}
+                        </select>
                     </div>
                     <div className="col-md-3">
                         <label className="form-label">Quantity</label>

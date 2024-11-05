@@ -10,6 +10,8 @@ export default function SupplierList() {
         email: ""
     });
     const [suppliers, setSuppliers] = useState([]);
+    const [filteredSuppliers, setFilteredSuppliers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(""); 
     const [isEditing, setIsEditing] = useState(false);
     const [editingSupplierId, setEditingSupplierId] = useState(null);
 
@@ -22,9 +24,22 @@ export default function SupplierList() {
         try {
             const response = await axios.get("http://localhost:8080/api/v1/getsuppliers");
             setSuppliers(response.data);
+            setFilteredSuppliers(response.data); 
         } catch (error) {
             console.error("Error fetching suppliers:", error);
         }
+    };
+
+    // Search handler
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+        
+        
+        const filtered = suppliers.filter((supplier) =>
+            supplier.supplierName.toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredSuppliers(filtered);
     };
 
     const handleClearForm = () => {
@@ -37,6 +52,8 @@ export default function SupplierList() {
         });
         setIsEditing(false);
         setEditingSupplierId(null);
+        setSearchTerm(""); 
+        setFilteredSuppliers(suppliers); 
     };
 
     const handleChange = (e) => {
@@ -91,6 +108,18 @@ export default function SupplierList() {
 
     return (
         <>
+            <div className='mb-3'>
+                <input
+                    type="text"
+                    placeholder="Search Supplier Name"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    // className="form-control"
+                    style={{maxWidth:'300px',border: "2px solid black", 
+                        borderRadius: '0.25rem', 
+                        }}
+                />
+            </div>
             <div className='table-container bg-white p-3 rounded shadow-sm mb-4'
                 style={{
                     maxHeight: '200px',
@@ -98,7 +127,7 @@ export default function SupplierList() {
                     overflowX: 'auto',
                     maxWidth: '100%',
                 }}>
-                <table className='table' style={{ minWidth: '800px' }} >
+                <table className='table' style={{ minWidth: '800px' }}>
                     <thead>
                         <tr>
                             <th scope='col'>Supplier Name</th>
@@ -110,8 +139,8 @@ export default function SupplierList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {suppliers.length > 0 ? (
-                            suppliers.map((supplier) => (
+                        {filteredSuppliers.length > 0 ? (
+                            filteredSuppliers.map((supplier) => (
                                 <tr key={supplier.supplierId}>
                                     <td>{supplier.supplierName}</td>
                                     <td>{supplier.saleRepName}</td>
@@ -131,7 +160,7 @@ export default function SupplierList() {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="6">No suppliers found</td>
+                                <td colSpan="6"></td>
                             </tr>
                         )}
                     </tbody>
