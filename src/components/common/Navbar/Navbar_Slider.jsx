@@ -4,6 +4,7 @@ import { useState } from 'react';
 import UserList from '../../UserManagement/UserList';
 import Dashboard from '../../Dashboard/Dashboard';
 import ReportGenerate from '../../ReportGenerate/ReportGenerate';
+import InventoryList from '../../inventory/InventoryManagement/InventoryList';
 
 
 
@@ -85,7 +86,10 @@ export default function Navbar_Slider() {
                     <ReportGenerate/> // Display Reports Tab component when "Report Generate" is active
                 )
                 :
-
+                activeComponent==='Inventory'?(
+                    <InventoryList/>
+                )
+                :
                 (
                     <div>
                         <h2>Welcome to the {activeComponent}</h2>
