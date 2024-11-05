@@ -3,6 +3,8 @@ import LoginPage from "./components/auth/LoginPage"
 import Navbar_Slider from "./components/common/Navbar/Navbar_Slider";
 import UserList from "./components/UserManagement/UserList";
 import NotFoundPage from "./pages/common/NotFoundPage";
+import ReportGenerate from "./components/ReportGenerate/ReportGenerate";
+import SalesReport from "./components/ReportGenerate/SalesReport";
 
 
 function App() {

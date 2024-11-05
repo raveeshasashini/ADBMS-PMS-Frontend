@@ -81,6 +81,7 @@ export default function Navbar_Slider() {
                     <ReportGenerate/> // Display Reports Tab component when "Report Generate" is active
                 )
                 :
+
                 (
                     <div>
                         <h2>Welcome to the {activeComponent}</h2>
