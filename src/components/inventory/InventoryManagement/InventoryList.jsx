@@ -9,7 +9,8 @@ export default function InventoryList() {
         supplierId: '',
         quantity: '',
         price: '',
-        receivedDate: ''
+        receivedDate: '',
+        expiryDate: ''
     });
     const [updateMode, setUpdateMode] = useState(false); 
     const [updateId, setUpdateId] = useState(null); 
@@ -27,7 +28,7 @@ export default function InventoryList() {
             .catch((error) => console.error("Error fetching inventory data:", error));
     };
     const fetchSupplierList = () => {
-        fetch("http://localhost:8080/api/v1/getsuppliers") // Replace with your endpoint
+        fetch("http://localhost:8080/api/v1/getsuppliers") 
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
@@ -77,7 +78,8 @@ export default function InventoryList() {
             supplierId: '',
             quantity: '',
             price: '',
-            receivedDate: ''
+            receivedDate: '',
+            expiryDate: ''
         });
     };
 
@@ -88,7 +90,8 @@ export default function InventoryList() {
             supplierId: item.supplierId,
             quantity: item.quantity,
             price: item.price,
-            receivedDate: item.receivedDate
+            receivedDate: item.receivedDate,
+            expiryDate: item.expiryDate
         });
         setUpdateMode(true);
         setUpdateId(item.inventoryId); 
@@ -112,6 +115,7 @@ export default function InventoryList() {
                             <th scope="col">Supplier Representative</th>
                             <th scope="col">Contact Number</th>
                             <th scope="col">Received Date</th>
+                            <th scope="col">Expiration Date</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Unit Price</th>
                             <th scope="col">Total Price</th>
@@ -126,6 +130,7 @@ export default function InventoryList() {
                                 <td>{item.salesRepName}</td>
                                 <td>{item.phoneNumber}</td>
                                 <td>{item.receivedDate}</td>
+                                <td>{item.expiryDate}</td>
                                 <td>{item.quantity}</td>
                                 <td>{item.price}</td>
                                 {/* Calculate total price on the fly */}
@@ -214,6 +219,17 @@ export default function InventoryList() {
                             className="form-control"
                         />
                     </div>
+                    <div className="col-md-3">
+                        <label className="form-label">Expired Date</label>
+                        <input
+                            type="date"
+                            name="expiryDate"
+                            value={formData.expiryDate}
+                            onChange={handleInputChange}
+                            className="form-control"
+                        />
+                    </div>
+
                     <div className="col-md-3 d-flex justify-content">
                         <button
                             type="button"
