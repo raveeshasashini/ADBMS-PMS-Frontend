@@ -1,7 +1,10 @@
 import React from 'react'
 import { useState } from 'react';
+
 import UserList from '../../UserManagement/UserList';
 import Dashboard from '../../Dashboard/Dashboard';
+import ReportGenerate from '../../ReportGenerate/ReportGenerate';
+
 
 
 export default function Navbar_Slider() {
@@ -30,7 +33,7 @@ export default function Navbar_Slider() {
                     />
                     <p className="mt-2">Hi, Lakindu</p>
                 </div>
-                {['Dashboard', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory | Report', 'User Manage', 'Parches Manage'].map((item, index) => (
+                {['Dashboard', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory', 'User Manage', 'Purches Manage','Report Generate'].map((item, index) => (
                     <a 
                     key={index} 
                     className="nav-link text-white my-2 p-2 rounded border-danger" 
@@ -72,16 +75,24 @@ export default function Navbar_Slider() {
                 {activeComponent === 'User Manage' ? (
                     <UserList /> // Display UserList component when "User Manage" is active
                 ) :
+
                 activeComponent === 'Dashboard' ? (
                     <Dashboard/> // Display Dashboard component when "Dashboard" is active
                 ) :
+
+
+                activeComponent === 'Report Generate' ? (
+                    <ReportGenerate/> // Display Reports Tab component when "Report Generate" is active
+                )
+                :
 
                 (
                     <div>
                         <h2>Welcome to the {activeComponent}</h2>
                         <p>This is the {activeComponent} section of the Pharmacy Management System.</p>
                     </div>
-                )}
+                )
+                }
             </div>
 
         </div>
