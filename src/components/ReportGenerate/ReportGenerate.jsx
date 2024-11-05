@@ -1,5 +1,7 @@
 import React, { useState } from 'react'; // Added useState import
 import SalesReport from './SalesReport';
+import LowStockReport from './LowStockReport';
+import InventoryReport from './InventoryReport';
 
 export default function ReportGenerate() {
   const [showReport, setShowReport] = useState('ReportGenerate'); // Initialize showReport state
@@ -36,17 +38,33 @@ export default function ReportGenerate() {
     );
   }
 
+  // Define the goBack function
+  const goBack = () => {
+    setShowReport('ReportGenerate');
+  };
+
   return (
-    <>
-      <div className="bg-white p-3 rounded shadow mb-4" style={{ overflow: 'scroll', height: "40%" }}>
+     <div className="bg-white p-3 rounded shadow mb-4" style={{ overflow: 'scroll', height: "600px" }}>
+      {showReport !== 'ReportGenerate' && (
+       <button className="btn btn-secondary mb-3" onClick={goBack}>Back</button>
+      )}
+
         {showReport === 'Total Sales Report' ? (
           <SalesReport/> // Display SalesReport component when "Total Sales Report" is active
-        ) : (
+        ) :
+        showReport === 'Low Stock Alerts' ? (
+          <LowStockReport/> // Display LowStockReport component when "Low Stock Alerts" is active
+        ) :
+        showReport === 'Current Inventory Levels' ? (
+          <InventoryReport/>// Display LowStockReport component when "Low Stock Alerts" is active
+        ) :
+        showReport === 'ReportGenerate' &&
+        (
           <div>
             <Section title="Sales Reports">
               <ReportCard 
                 title="Total Sales Report" 
-                description="View total sales over a selected period with detailed graphs and charts." 
+                description="View total sales over a selected period" 
               />
             </Section>
     
@@ -58,12 +76,9 @@ export default function ReportGenerate() {
     
             <Section title="Supplier Reports">
               <ReportCard title="Order History" description="Maintain a history of orders placed with suppliers." />
-              <ReportCard title="Payment Status" description="Monitor payment status for all suppliers to ensure timely payments." />
-              <ReportCard title="Supplier Performance Reports" description="Evaluate supplier performance and reliability over time." />
             </Section>
           </div>
         )}
       </div>
-    </>
   );
 }
