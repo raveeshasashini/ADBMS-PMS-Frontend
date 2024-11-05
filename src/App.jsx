@@ -1,9 +1,10 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom"
-import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from "./components/auth/LoginPage"
 import Navbar_Slider from "./components/common/Navbar/Navbar_Slider";
+import NotFoundPage from "./pages/common/NotFoundPage";
 import UserList from "./components/common/UserManagement/UserList";
-import InventoryList from "./components/inventory/InventoryManagement/InventoryList";
+import ReportGenerate from "./components/ReportGenerate/ReportGenerate";
+import SalesReport from "./components/ReportGenerate/SalesReport";
 
 
 function App() {
@@ -25,9 +26,13 @@ function App() {
           
           {/* user management */}
           <Route path="/user-management" element={<UserList/> } />
+      
 
-          {/*Inventory management*/}
-          <Route path="/inventory-management" element={<></>}/>
+          {/* dash board */}
+          <Route path="/landing-page" />
+
+          {/* 404 */}
+          <Route path="*" element={<NotFoundPage/>}/>
 
         </Routes>
       </>
