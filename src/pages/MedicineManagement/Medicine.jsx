@@ -8,7 +8,7 @@ export default function Medicine() {
     medicine_id: '',
     medicine_name: '',
     supplier_details: '',
-    unit_type: '', // Default to an empty string
+    unit_type: '', 
     dose: '',
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,7 +32,7 @@ export default function Medicine() {
       medicine_id: medicine.medicine_id,
       medicine_name: medicine.medicine_name,
       supplier_details: medicine.supplier_details,
-      unit_type: medicine.unit_type, // Set the existing unit_type value
+      unit_type: medicine.unit_type, 
       dose: medicine.dose,
     });
     setIsUpdate(true);
@@ -75,6 +75,32 @@ export default function Medicine() {
     setFormData({ ...formData, unit_type: event.target.value }); // Ensure unit_type is updated
   };
 
+  // Delete medicine with confirmation
+  const handleDeleteClick = (medicineId) => {
+    console.log('Deleting medicine with ID:', medicineId);
+    const confirmDelete = window.confirm("Are you sure you want to delete this medicine?");
+    if (!confirmDelete) return;
+
+    fetch(`http://localhost:8080/api/medicine/delete?medId=${medicineId}`, {
+      method: 'DELETE',
+    })
+      .then((response) => response.text()) // Get the response message from the backend
+      .then((data) => {
+        if (data === 'Medicine deleted successfully.') {
+          alert('Medicine deleted successfully.');
+          // Optionally, update the UI to reflect the deletion
+          setMedicines(medicines.filter((medicine) => medicine.medicine_id !== medicineId));
+        } else {
+          console.error('Error deleting medicine:', data.message);
+          alert(data); // Display the error message (e.g., medicine is in inventory)
+        }
+      })
+      .catch((error) => {
+        console.error('Error deleting medicine:', error);
+        alert('Error occurred while deleting the medicine.');
+      });
+  };
+
   return (
     <div className="medicineContainer">
       <h3><b><center>All Medicines</center></b></h3>
@@ -98,7 +124,7 @@ export default function Medicine() {
         </thead>
         <tbody>
           {medicines.map((medicine, index) => (
-            <tr key={medicine.medicine_id} className={index % 2 === 0 ? 'evenRow' : ''}>
+            <tr key={medicine.medicine_id}>
               <td className="medicineTableData">{medicine.medicine_id}</td>
               <td className="medicineTableData">{medicine.medicine_name}</td>
               <td className="medicineTableData">{medicine.supplier_details}</td>
@@ -111,7 +137,12 @@ export default function Medicine() {
                 >
                   Update
                 </button>
-                <button className="deleteButton">Delete</button>
+                <button 
+                  className="deleteButton" 
+                  onClick={() => handleDeleteClick(medicine.medicine_id)}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
@@ -149,9 +180,8 @@ export default function Medicine() {
             <select 
               className="modalInput" 
               value={formData.unit_type} 
-              onChange={handleUnitTypeChange} // Corrected: ensure the onChange is set here
+              onChange={handleUnitTypeChange} 
             >
-              <option value=""></option>
               <option value="tablet">Tablet</option>
               <option value="capsule">Capsule</option>
               <option value="syrup">Syrup</option>
