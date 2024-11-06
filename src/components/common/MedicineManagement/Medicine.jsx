@@ -11,7 +11,6 @@ export default function Medicine() {
   });
 
   useEffect(() => {
-    // Fetch the medicines data from the API
     fetch('http://localhost:8080/api/medicine/getallmedicines')
       .then(response => response.json())
       .then(data => setMedicines(data))
@@ -19,7 +18,6 @@ export default function Medicine() {
   }, []);
 
   const handleUpdateClick = (medicine) => {
-    // Set the form data with the values of the selected medicine
     setFormData({
       medicine_id: medicine.medicine_id,
       medicine_name: medicine.medicine_name,
@@ -83,16 +81,16 @@ export default function Medicine() {
     },
     actionButtonUpdate: {
       padding: '5px 10px',
-      backgroundColor: '#4CAF50', // Green for Update
+      backgroundColor: '#4CAF50', 
       color: 'white',
       border: 'none',
       borderRadius: '3px',
       cursor: 'pointer',
-      marginRight: '10px', // Space between buttons
+      marginRight: '10px', 
     },
     actionButtonDelete: {
       padding: '5px 10px',
-      backgroundColor: '#f44336', // Red for Delete
+      backgroundColor: '#f44336', 
       color: 'white',
       border: 'none',
       borderRadius: '3px',
