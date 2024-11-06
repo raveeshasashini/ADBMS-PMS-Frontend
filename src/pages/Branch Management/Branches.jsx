@@ -128,7 +128,7 @@ export default function Branches() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="6" style={{ textAlign: 'center' }}>No branches available.</td>
+                      <td colSpan="7" style={{ textAlign: 'center' }}>No branches available.</td>
                     </tr>
                   )}
                 
