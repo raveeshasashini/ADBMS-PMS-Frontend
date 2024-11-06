@@ -7,10 +7,48 @@ export default function Branches() {
 
   const [branchList, setBranchList] = React.useState([]);
 
-  const handleCreateNewBranch = () => {
+  let branch = {
+    branch_id: 0,
+    branch_name: "",
+    contact_number: "",
+    is_disabled: 0,
+    location: "",
+
+  }
+
+  const handleCreateNewBranch = () => {   // function for creating a new branch 
     // Add the logic for creating a new branch here
     alert("Create New Branch button clicked!");
   };
+
+
+  const handleDisableBranch = async (branchId) => {   // function for disabling a branch
+      branch.branch_id = branchId;
+      branch.is_disabled = 1;
+
+      try{
+        await axios.post('http://localhost:8080/api/branchManagement/updateIsDisabled', branch);
+        alert("Branch disabled successfully!");
+        getAllBranches();
+      }catch(err){
+          console.log(err);
+      }
+  }
+
+  const handleEnableBranch = async (branchId) => {   // function for enabling a branch
+    branch.branch_id = branchId;
+    branch.is_disabled = 0;
+
+    try{
+      await axios.post('http://localhost:8080/api/branchManagement/updateIsDisabled', branch);
+      alert("Branch enabled successfully!");
+      getAllBranches();
+    }catch(err){
+        console.log(err);
+    }
+  }
+
+
 
   const getAllBranches = async () => {
       try{
@@ -26,6 +64,8 @@ export default function Branches() {
   useEffect(() => {
     getAllBranches();
   }, []);
+
+
 
 
   return (
