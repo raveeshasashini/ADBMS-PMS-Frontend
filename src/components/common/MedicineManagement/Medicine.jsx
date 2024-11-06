@@ -133,48 +133,8 @@ export default function Medicine() {
         </tbody>
       </table>
 
-      <div style={styles.inputs}>
-        <input
-          style={styles.input}
-          type="number"
-          placeholder="Medicine ID"
-          value={formData.medicine_id}
-          onChange={(e) => setFormData({ ...formData, medicine_id: e.target.value })}
-        />
-        <input
-          style={styles.input}
-          type="text"
-          placeholder="Medicine Name"
-          value={formData.medicine_name}
-          onChange={(e) => setFormData({ ...formData, medicine_name: e.target.value })}
-        />
-        <input
-          style={styles.input}
-          type="text"
-          placeholder="Supplier Details"
-          value={formData.supplier_details}
-          onChange={(e) => setFormData({ ...formData, supplier_details: e.target.value })}
-        />
-        <input
-          style={styles.input}
-          type="text"
-          placeholder="Unit Type"
-          value={formData.unit_type}
-          onChange={(e) => setFormData({ ...formData, unit_type: e.target.value })}
-        />
-        <input
-          style={styles.input}
-          type="text"
-          placeholder="Dose"
-          value={formData.dose}
-          onChange={(e) => setFormData({ ...formData, dose: e.target.value })}
-        />
-      </div>
-
       <div style={styles.buttons}>
         <button style={styles.button}>Add</button>
-        <button style={styles.button}>Search</button>
-        <button style={styles.button}>Clear</button>
       </div>
     </div>
   );
