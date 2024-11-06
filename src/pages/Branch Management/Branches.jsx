@@ -9,6 +9,14 @@ export default function Branches() {
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [managerList, setManagerList] = useState([]);
 
+  // states for creating a branch
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [newBranch, setNewBranch] = useState({
+    branch_name: '',
+    location: '',
+    contact_number: '',
+  });
+
   const handleEditBranch = (branchId) => {   
     const branchToEdit = branchList.find(branch => branch.branch_id === branchId);
     setSelectedBranch(branchToEdit);
@@ -20,17 +28,15 @@ export default function Branches() {
     setSelectedBranch(null);
   };
 
-  const handleSaveChanges = async () => {
-    // Save changes logic here (e.g., send updated branch to the server)
+  const handleSaveChanges = async () => {     //Update functionality
+    
     try{
         await axios.put ('http://localhost:8080/api/branchManagement/procedure_update_branch', { branch_id: selectedBranch.branch_id, branch_name: selectedBranch.branch_name, location: selectedBranch.location, contact_number: selectedBranch.contact_number, user_id: selectedBranch.user_id });
         alert("Changes saved!");
-        console.log(selectedBranch);
         getAllBranches();
     } catch (err) {
       console.log(err);
     }
-    
     
     closeEditModal();
   };
@@ -76,6 +82,28 @@ export default function Branches() {
     }
   };
 
+  // functions for Create Branch modal
+  const handleCreateNewBranch = () => {
+    setIsCreateModalOpen(true);
+  };
+
+  const closeCreateModal = () => {
+    setIsCreateModalOpen(false);
+    setNewBranch({ branch_name: '', location: '', contact_number: '', user_id: '' });
+  };
+
+
+  const handleSaveNewBranch = async () => {
+    try {
+      await axios.post('http://localhost:8080/api/branchManagement/procedure_insert_branch', newBranch);
+      alert("New branch created successfully!");
+      getAllBranches();
+    } catch (err) {
+      console.log(err);
+    }
+    closeCreateModal();
+  };
+
   useEffect(() => {
     getAllBranches();
     getAllManagers();
@@ -88,7 +116,7 @@ export default function Branches() {
           <h3><center>All Branches</center></h3>
 
           <div className="button-container">
-            <button className="create-branch-btn" onClick={() => alert("Create New Branch button clicked!")}>
+            <button className="create-branch-btn" onClick={handleCreateNewBranch}>
               Create New Branch
             </button>
           </div>
@@ -192,6 +220,52 @@ export default function Branches() {
             <div className="modal-buttons">
               <button onClick={handleSaveChanges}>Save Changes</button>
               <button onClick={closeEditModal}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+
+      {/* Create New Branch Modal */}
+      {isCreateModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Create New Branch</h3>
+            <label>Branch Name:</label>
+            <input 
+              type="text" 
+              value={newBranch.branch_name} 
+              onChange={(e) => setNewBranch({...newBranch, branch_name: e.target.value})}
+            />
+            <label>Location:</label>
+            <input 
+              type="text" 
+              value={newBranch.location} 
+              onChange={(e) => setNewBranch({...newBranch, location: e.target.value})}
+            />
+            <label>Contact Number:</label>
+            <input 
+              type="text" 
+              value={newBranch.contact_number} 
+              onChange={(e) => setNewBranch({...newBranch, contact_number: e.target.value})}
+            />
+            {/*<label>Manager:</label>
+            <select
+              value={newBranch.user_id} 
+              onChange={(e) => setNewBranch({...newBranch, user_id: e.target.value})}
+            >
+              <option value="">Select Manager</option>
+              {managerList.map(manager => (
+                <option key={manager.user_id} value={manager.user_id}>
+                  {manager.user_id + " - " + manager.name}
+                </option>
+              ))}
+            </select> */}
+
+            <div className="modal-buttons">
+              <button onClick={handleSaveNewBranch}>Create Branch</button>
+              <button onClick={closeCreateModal}>Cancel</button>
             </div>
           </div>
         </div>
