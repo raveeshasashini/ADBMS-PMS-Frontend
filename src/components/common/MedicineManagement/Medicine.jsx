@@ -55,25 +55,15 @@ export default function Medicine() {
     evenRow: {
       backgroundColor: '#f2f2f2',
     },
-    inputs: {
+    buttonContainer: {
       display: 'flex',
-      gap: '10px',
+      justifyContent: 'flex-end',
       marginBottom: '20px',
+      width: '100%',
     },
-    input: {
-      padding: '10px',
-      border: '1px solid #ddd',
-      borderRadius: '5px',
-      width: '150px',
-    },
-    buttons: {
-      display: 'flex',
-      gap: '10px',
-      marginBottom: '20px',
-    },
-    button: {
+    addButton: {
       padding: '10px 15px',
-      backgroundColor: '#2a2d58',
+      backgroundColor: '#0557d3', 
       color: 'white',
       border: 'none',
       borderRadius: '5px',
@@ -100,6 +90,14 @@ export default function Medicine() {
 
   return (
     <div style={styles.container}>
+      <h3><b><center>All Medicines</center></b></h3>
+
+      <div style={styles.buttonContainer}>
+        <button style={styles.addButton}>
+          Add New Medicine
+        </button>
+      </div>
+
       <table style={styles.table}>
         <thead>
           <tr>
@@ -132,10 +130,6 @@ export default function Medicine() {
           ))}
         </tbody>
       </table>
-
-      <div style={styles.buttons}>
-        <button style={styles.button}>Add</button>
-      </div>
     </div>
   );
 }
