@@ -1,9 +1,9 @@
 import React from 'react'
 import { useState } from 'react';
-
 import UserList from '../../UserManagement/UserList';
-import Dashboard from '../../Dashboard/Dashboard';
 import ReportGenerate from '../../ReportGenerate/ReportGenerate';
+import Dashboard from '../../Dashboard/Dashboard';
+
 
 
 
@@ -76,16 +76,17 @@ export default function Navbar_Slider() {
                     <UserList /> // Display UserList component when "User Manage" is active
                 ) :
 
+
                 activeComponent === 'Dashboard' ? (
                     <Dashboard/> // Display Dashboard component when "Dashboard" is active
                 ) :
+
 
 
                 activeComponent === 'Report Generate' ? (
                     <ReportGenerate/> // Display Reports Tab component when "Report Generate" is active
                 )
                 :
-
                 (
                     <div>
                         <h2>Welcome to the {activeComponent}</h2>

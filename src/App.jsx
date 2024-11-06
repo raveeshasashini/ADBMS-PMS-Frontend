@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom"
 import LoginPage from "./components/auth/LoginPage"
 import Navbar_Slider from "./components/common/Navbar/Navbar_Slider";
 import NotFoundPage from "./pages/common/NotFoundPage";
-import UserList from "./components/common/UserManagement/UserList";
+import UserList from "./components/UserManagement/UserList";
 import ReportGenerate from "./components/ReportGenerate/ReportGenerate";
 import SalesReport from "./components/ReportGenerate/SalesReport";
 
