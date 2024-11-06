@@ -15,7 +15,7 @@ export default function LoginPage() {
       if(authResponse.role_id === 1){
         window.location.href = '/landing-page';
       }else{
-        window.location.href = '/';
+        window.location.href = '/landing-page';
       }
     } catch (error) {
       console.log(error+" error login api")
