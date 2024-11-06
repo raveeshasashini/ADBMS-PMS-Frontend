@@ -9,6 +9,8 @@ export default function Medicine() {
     unit_type: '',
     dose: '',
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:8080/api/medicine/getallmedicines')
@@ -25,6 +27,36 @@ export default function Medicine() {
       unit_type: medicine.unit_type,
       dose: medicine.dose,
     });
+    setIsUpdate(true);
+    setIsModalOpen(true);
+  };
+
+  const handleAddClick = () => {
+    setIsUpdate(false);
+    setFormData({
+      medicine_id: '',
+      medicine_name: '',
+      supplier_details: '',
+      unit_type: '',
+      dose: '',
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (isUpdate) {
+      // Handle update logic
+      console.log('Updating medicine:', formData);
+    } else {
+      // Handle add logic
+      console.log('Adding new medicine:', formData);
+    }
+    handleCloseModal();
   };
 
   const styles = {
@@ -44,7 +76,7 @@ export default function Medicine() {
       backgroundColor: '#2a2d58',
       color: 'white',
       padding: '10px',
-      textAlign: 'left',
+      textAlign: 'center',
       border: '1px solid #ddd',
     },
     td: {
@@ -86,6 +118,59 @@ export default function Medicine() {
       borderRadius: '3px',
       cursor: 'pointer',
     },
+    modal: {
+      display: isModalOpen ? 'flex' : 'none',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 1000,
+    },
+    modalContent: {
+      backgroundColor: 'white',
+      padding: '30px',
+      borderRadius: '8px',
+      width: '500px', // Increased width
+      height: 'auto',
+      margin: '0 10px',
+    },
+    modalHeader: {
+      fontSize: '22px',
+      marginBottom: '15px',
+      textAlign: 'center',
+    },
+    modalForm: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    modalInput: {
+      padding: '12px',
+      marginBottom: '15px',
+      border: '1px solid #ddd',
+      borderRadius: '5px',
+    },
+    modalButton: {
+      padding: '12px 20px',
+      backgroundColor: '#0557d3', 
+      color: 'white',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      marginTop: '10px',
+    },
+    modalCloseButton: {
+      padding: '10px 15px',
+      backgroundColor: '#999',
+      color: 'white',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      marginTop: '10px',
+    },
   };
 
   return (
@@ -93,7 +178,7 @@ export default function Medicine() {
       <h3><b><center>All Medicines</center></b></h3>
 
       <div style={styles.buttonContainer}>
-        <button style={styles.addButton}>
+        <button style={styles.addButton} onClick={handleAddClick}>
           Add New Medicine
         </button>
       </div>
@@ -130,6 +215,46 @@ export default function Medicine() {
           ))}
         </tbody>
       </table>
+
+      {/* Modal for Add or Update */}
+      <div style={styles.modal}>
+        <div style={styles.modalContent}>
+          <h4 style={styles.modalHeader}>{isUpdate ? 'Update Medicine' : 'Add New Medicine'}</h4>
+          <form style={styles.modalForm} onSubmit={handleSubmit}>
+            <input 
+              type="text" 
+              placeholder="Medicine Name" 
+              style={styles.modalInput}
+              value={formData.medicine_name}
+              onChange={(e) => setFormData({...formData, medicine_name: e.target.value})}
+            />
+            <input 
+              type="text" 
+              placeholder="Supplier Details" 
+              style={styles.modalInput}
+              value={formData.supplier_details}
+              onChange={(e) => setFormData({...formData, supplier_details: e.target.value})}
+            />
+            <input 
+              type="text" 
+              placeholder="Unit Type" 
+              style={styles.modalInput}
+              value={formData.unit_type}
+              onChange={(e) => setFormData({...formData, unit_type: e.target.value})}
+            />
+            <input 
+              type="number" 
+              placeholder="Dose" 
+              step="0.01" 
+              style={styles.modalInput}
+              value={formData.dose}
+              onChange={(e) => setFormData({...formData, dose: e.target.value})}
+            />
+            <button type="submit" style={styles.modalButton}>{isUpdate ? 'Update' : 'Add'}</button>
+            <button type="button" style={styles.modalCloseButton} onClick={handleCloseModal}>Close</button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
