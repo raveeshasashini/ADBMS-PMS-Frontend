@@ -6,7 +6,7 @@ export default function InventoryList() {
     const [formData, setFormData] = useState({
         medicineId: '',
         supplierId: '',
-        branchId: '', 
+        branchId: '',
         quantity: '',
         price: '',
         receivedDate: '',
@@ -30,7 +30,7 @@ export default function InventoryList() {
             const user = JSON.parse(storedUserData);
             setFormData((prevData) => ({
                 ...prevData,
-                branchId: user.branch_id 
+                branchId: user.branch_id
             }));
         }
     }, []);
@@ -41,7 +41,7 @@ export default function InventoryList() {
             .then((response) => response.json())
             .then((data) => setInventoryData(data))
             .catch((error) => setError("Error fetching inventory data"))
-            .finally(()=>setLoading(false));
+            .finally(() => setLoading(false));
     };
 
     const fetchSupplierList = () => {
@@ -52,11 +52,12 @@ export default function InventoryList() {
     };
 
     const fetchMedicineList = () => {
-        fetch("http://localhost:8080/api/medicine/getallmedicines") 
+        fetch("http://localhost:8080/api/medicine/getallmedicines")
             .then((response) => response.json())
             .then((data) => setMedicines(data))
             .catch((error) => console.error("Error fetching medicine list:", error));
     };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -72,13 +73,12 @@ export default function InventoryList() {
             : "http://localhost:8080/api/v1/addinventory";
         const method = updateMode ? "PUT" : "POST";
 
-        
         fetch(url, {
             method: method,
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(formData), 
+            body: JSON.stringify(formData),
         })
             .then((response) => response.json())
             .then(() => {
@@ -98,66 +98,74 @@ export default function InventoryList() {
             price: '',
             receivedDate: '',
             expiryDate: '',
-            branchId: formData.branchId 
+            branchId: formData.branchId
         });
     };
 
     const handleUpdateClick = (item) => {
-        setFormData({
-            medicineId: item.medicineId,
-            supplierId: item.supplierId,
-            quantity: item.quantity,
-            price: item.price,
-            receivedDate: item.receivedDate,
-            expiryDate: item.expiryDate,
-            branchId: item.branchId || formData.branchId, 
-        });
         setUpdateMode(true);
         setUpdateId(item.inventoryId);
+        
+        
+        fetch(`http://localhost:8080/api/v1/getInventoryById/${item.inventoryId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                
+                setFormData({
+                    medicineId: data.medicineId,
+                    supplierId: data.supplierId,
+                    quantity: data.quantity,
+                    price: data.price,
+                    receivedDate: data.receivedDate,
+                    expiryDate: data.expiryDate,
+                    branchId: data.branchId || formData.branchId,  
+                });
+            })
+            .catch((error) => console.error("Error fetching inventory data:", error));
     };
 
     return (
         <>
             <div className="table-container bg-white p-3 rounded shadow mb-4" style={{ maxHeight: '200px', overflowY: 'auto', overflowX: 'auto', maxWidth: '100%' }}>
-            {loading ? (
+                {loading ? (
                     <p>Loading data...</p>
                 ) : error ? (
                     <p style={{ color: 'red' }}>{error}</p>
-                ) : ( 
-                <table className="table" style={{ minWidth: '800px' }}>
-                    <thead>
-                        <tr>
-                            <th scope="col">Supplier Name</th>
-                            <th scope="col">Supplier Representative</th>
-                            <th scope="col">Contact Number</th>
-                            <th scope="col">Received Date</th>
-                            <th scope="col">Expiration Date</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Unit Price(LKR)</th>
-                            <th scope="col">Total Price(LKR)</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {inventoryData.map((item, index) => (
-                            <tr key={index}>
-                                <td>{item.supplierName}</td>
-                                <td>{item.salesRepName}</td>
-                                <td>{item.phoneNumber}</td>
-                                <td>{item.receivedDate}</td>
-                                <td>{item.expiryDate}</td>
-                                <td>{item.quantity}</td>
-                                <td>{item.price}</td>
-                                <td>{(item.quantity * item.price).toFixed(2)}</td>
-                                <td>
-                                    <button type="button" className="btn btn-primary btn-sm" onClick={() => handleUpdateClick(item)}>
-                                        Update
-                                    </button>
-                                </td>
+                ) : (
+                    <table className="table" style={{ minWidth: '800px' }}>
+                        <thead>
+                            <tr>
+                                <th scope="col">Supplier Name</th>
+                                <th scope="col">Supplier Representative</th>
+                                <th scope="col">Contact Number</th>
+                                <th scope="col">Received Date</th>
+                                <th scope="col">Expiration Date</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Unit Price(LKR)</th>
+                                <th scope="col">Total Price(LKR)</th>
+                                <th scope="col">Action</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {inventoryData.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{item.supplierName}</td>
+                                    <td>{item.salesRepName}</td>
+                                    <td>{item.phoneNumber}</td>
+                                    <td>{item.receivedDate}</td>
+                                    <td>{item.expiryDate}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>{item.price}</td>
+                                    <td>{(item.quantity * item.price).toFixed(2)}</td>
+                                    <td>
+                                        <button type="button" className="btn btn-primary btn-sm" onClick={() => handleUpdateClick(item)}>
+                                            Update
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 )}
             </div>
 
@@ -173,8 +181,8 @@ export default function InventoryList() {
                         >
                             <option value="">Select Medicine</option>
                             {medicines.map((medicine) => (
-                                <option key={medicine.id} value={medicine.id}>
-                                    {medicine.name} (ID: {medicine.id})
+                                <option key={medicine.medicine_id} value={medicine.medicine_id}>
+                                    {medicine.medicine_name} (ID: {medicine.medicine_id})
                                 </option>
                             ))}
                         </select>
@@ -211,7 +219,9 @@ export default function InventoryList() {
                         <button type="button" className="btn btn-primary btn-sm mx-2 mt-4 w-50" onClick={handleInventorySubmission}>
                             {updateMode ? "Update" : "Add"}
                         </button>
-                        <button type="button" className="btn btn-danger btn-sm mx-2 mt-4 w-50" onClick={handleClearForm}>Clear</button>
+                        <button type="button" className="btn btn-danger btn-sm mx-2 mt-4 w-50" onClick={handleClearForm}>
+                            Clear
+                        </button>
                     </div>
                 </form>
             </div>
