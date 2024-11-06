@@ -3,6 +3,8 @@ import { useState } from 'react';
 import UserList from '../../UserManagement/UserList';
 import Medicine from '../../../pages/MedicineManagement/Medicine';
 import ReportGenerate from '../../ReportGenerate/ReportGenerate';
+import InventoryList from '../../inventory/InventoryManagement/InventoryList';
+import SupplierList from '../../inventory/InventoryManagement/SupplierList';
 import Branches from '../../../pages/Branch Management/Branches';
 import Dashboard from '../../Dashboard/Dashboard';
 
@@ -95,11 +97,16 @@ export default function Navbar_Slider() {
                 activeComponent === 'Report Generate' ? (
                     <ReportGenerate/> // Display Reports Tab component when "Report Generate" is active
                 ) :
-
                 activeComponent === 'Medicine' ? (
                     <Medicine/> // Display Reports Tab component when "Medicine" is active
                 ) :
-
+                activeComponent==='Inventory'?(
+                    <InventoryList/>
+                )
+                :
+                activeComponent==='Supplier Manage'?(
+                    <SupplierList/>
+                ):
                 (
                     <div>
                         <h2>Welcome to the {activeComponent}</h2>

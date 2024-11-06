@@ -76,9 +76,11 @@ export default function ReportGenerate() {
 
       {
         role_id==1 ? (
-          <div className="d-flex justify-content-end">
-            <button className="btn btn-primary" onClick={()=>{window.location.href='/add-medicine'}} >Add Medicine</button>
-          </div>
+
+          <>
+            
+          </>
+
         ) : 
         (
           <>

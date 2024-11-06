@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Children } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function SalesReport() {
@@ -14,13 +14,22 @@ function SalesReport() {
     const storedData = localStorage.getItem('user');
     
     useEffect(() => {
-        if(storedData){
-            setUser(JSON.parse(storedData));
-            setBranchId(user.branch_id);
-        }else{
+
+        if (storedData) {
+            const parsedUser = JSON.parse(storedData);
+            setUser(parsedUser);
+    
+            // Check if parsedUser and parsedUser.branch_id are not null
+            if (parsedUser && parsedUser.branch_id != null) {
+                setBranchId(parsedUser.branch_id);
+                console.log(branchId);
+            }
+        } else {
             setUser(null);
-        }
-    }, []);
+        }
+    }, [storedData]);
+    
+
 
     useEffect(() => {
         if (salesBy === 'Day' && selectedDate) {
