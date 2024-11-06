@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import UserList from '../../UserManagement/UserList';
-import Medicine from '../MedicineManagement/Medicine';
+import Medicine from '../../../pages/MedicineManagement/Medicine';
 import ReportGenerate from '../../ReportGenerate/ReportGenerate';
 import Branches from '../../../pages/Branch Management/Branches';
 import Dashboard from '../../Dashboard/Dashboard';
