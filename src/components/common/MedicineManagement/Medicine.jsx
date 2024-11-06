@@ -150,8 +150,9 @@ export default function Medicine() {
       margin: '0 10px',
     },
     modalHeader: {
-      fontSize: '22px',
+      fontSize: '30px',
       marginBottom: '15px',
+      paddingBottom: '25px',
       textAlign: 'center',
     },
     modalForm: {
@@ -253,7 +254,7 @@ export default function Medicine() {
               onChange={(e) => setFormData({...formData, medicine_name: e.target.value})}
             />
 
-            <label style={styles.highlightedLabel}>Supplier</label>
+            <label style={styles.highlightedLabel}>Supplier Details</label>
             <select 
               style={styles.modalInput} 
               value={formData.supplier_details}
@@ -268,12 +269,16 @@ export default function Medicine() {
             </select>
 
             <label style={styles.highlightedLabel}>Unit Type</label>
-            <input 
-              type="text" 
-              style={styles.modalInput}
-              value={formData.unit_type}
-              onChange={(e) => setFormData({...formData, unit_type: e.target.value})}
-            />
+            <select 
+            style={styles.modalInput} 
+            value={formData.unit_type} 
+            onChange={(e) => setFormData({ ...formData, unit_type: e.target.value })}
+          >
+            <option value=""></option>
+            <option value="Tablet">Tablet</option>
+            <option value="Capsule">Capsule</option>
+            <option value="Syrup">Syrup</option>
+          </select>
 
             <label style={styles.highlightedLabel}>Dose</label>
             <input 
