@@ -100,7 +100,7 @@
   
   .create-branch-btn {
     padding: 8px 20px;
-    background-color: #43a146; /* Adjust color to match your theme */
+    background-color: #2d2a5a ; /* Adjust color to match your theme */
     color: white;
     border: none;
     border-radius: 5px;
@@ -110,7 +110,7 @@
   }
   
   .create-branch-btn:hover {
-    background-color: #27742b;
+    background-color: #121124;
   }
   
   .edit-btn{
@@ -125,12 +125,12 @@
   }
   
   .edit-btn {
-    background-color: #008CBA; /* Blue for edit */
+    background-color: #067421; /* Blue for edit */
     color: white;
   }
   
   .edit-btn:hover {
-    background-color: #007bb5;
+    background-color: #042b0d;
   }
   
 
@@ -160,10 +160,10 @@
 
 /* Disable Button */
 .disable-btn {
-  background-color: #f44336; /* Red for disabling */
+  background-color: #b81d12; /* Red for disabling */
   color: white;
 }
 
 .disable-btn:hover {
-  background-color: #d32f2f; /* Darker red on hover */
+  background-color: #3f0707; /* Darker red on hover */
 }
