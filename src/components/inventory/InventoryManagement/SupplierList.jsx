@@ -14,6 +14,8 @@ export default function SupplierList() {
     const [searchTerm, setSearchTerm] = useState(""); 
     const [isEditing, setIsEditing] = useState(false);
     const [editingSupplierId, setEditingSupplierId] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     // Fetch suppliers 
     useEffect(() => {
@@ -21,12 +23,15 @@ export default function SupplierList() {
     }, []);
 
     const fetchSuppliers = async () => {
+        setLoading(true);
         try {
             const response = await axios.get("http://localhost:8080/api/v1/getsuppliers");
             setSuppliers(response.data);
             setFilteredSuppliers(response.data); 
         } catch (error) {
-            console.error("Error fetching suppliers:", error);
+            setError("Error fetching suppliers");
+        }finally{
+            setLoading(false);
         }
     };
 
@@ -127,6 +132,11 @@ export default function SupplierList() {
                     overflowX: 'auto',
                     maxWidth: '100%',
                 }}>
+                    {loading ? (
+                    <p>Loading data...</p>
+                ) : error ? (
+                    <p style={{ color: 'red' }}>{error}</p>
+                ) : (
                 <table className='table' style={{ minWidth: '800px' }}>
                     <thead>
                         <tr>
@@ -153,7 +163,17 @@ export default function SupplierList() {
                                             className="btn btn-primary btn-sm"
                                             onClick={() => handleEdit(supplier)}
                                         >
-                                            Update
+                                            Edit
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger btn-sm "
+                                            style={{ color: "white" }}
+                                            
+                                        >
+                                            Delete
                                         </button>
                                     </td>
                                 </tr>
@@ -165,6 +185,7 @@ export default function SupplierList() {
                         )}
                     </tbody>
                 </table>
+                )}
             </div>
 
             <div className="bg-white p-3 rounded shadow mb-4">

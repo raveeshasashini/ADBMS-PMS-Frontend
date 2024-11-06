@@ -5,6 +5,7 @@ import UserList from '../../UserManagement/UserList';
 import Dashboard from '../../Dashboard/Dashboard';
 import ReportGenerate from '../../ReportGenerate/ReportGenerate';
 import InventoryList from '../../inventory/InventoryManagement/InventoryList';
+import SupplierList from '../../inventory/InventoryManagement/SupplierList';
 
 
 
@@ -34,7 +35,7 @@ export default function Navbar_Slider() {
                     />
                     <p className="mt-2">Hi, Lakindu</p>
                 </div>
-                {['Dashboard', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory', 'User Manage', 'Purches Manage','Report Generate'].map((item, index) => (
+                {['Dashboard', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory', 'Supplier Manage','User Manage', 'Purches Manage','Report Generate'].map((item, index) => (
                     <a 
                     key={index} 
                     className="nav-link text-white my-2 p-2 rounded border-danger" 
@@ -90,6 +91,9 @@ export default function Navbar_Slider() {
                     <InventoryList/>
                 )
                 :
+                activeComponent==='Supplier Manage'?(
+                    <SupplierList/>
+                ):
                 (
                     <div>
                         <h2>Welcome to the {activeComponent}</h2>
