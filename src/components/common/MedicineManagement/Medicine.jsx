@@ -5,7 +5,7 @@ export default function Medicine() {
   const [formData, setFormData] = useState({
     medicine_id: '',
     medicine_name: '',
-    brand_id: '',
+    supplier_details: '',
     unit_type: '',
     dose: '',
   });
@@ -23,7 +23,7 @@ export default function Medicine() {
     setFormData({
       medicine_id: medicine.medicine_id,
       medicine_name: medicine.medicine_name,
-      brand_id: medicine.brand_id,
+      supplier_details: medicine.supplier_details,
       unit_type: medicine.unit_type,
       dose: medicine.dose,
     });
@@ -107,7 +107,7 @@ export default function Medicine() {
           <tr>
             <th style={styles.th}>Medicine ID</th>
             <th style={styles.th}>Medicine Name</th>
-            <th style={styles.th}>Brand ID</th>
+            <th style={styles.th}>Supplier Details</th>
             <th style={styles.th}>Unit Type</th>
             <th style={styles.th}>Dose</th>
             <th style={styles.th}>Actions</th>
@@ -118,7 +118,7 @@ export default function Medicine() {
             <tr key={medicine.medicine_id} style={index % 2 === 0 ? styles.evenRow : {}}>
               <td style={styles.td}>{medicine.medicine_id}</td>
               <td style={styles.td}>{medicine.medicine_name}</td>
-              <td style={styles.td}>{medicine.brand_id}</td>
+              <td style={styles.td}>{medicine.supplier_details}</td>
               <td style={styles.td}>{medicine.unit_type}</td>
               <td style={styles.td}>{medicine.dose}</td>
               <td style={styles.td}>
@@ -152,10 +152,10 @@ export default function Medicine() {
         />
         <input
           style={styles.input}
-          type="number"
-          placeholder="Brand ID"
-          value={formData.brand_id}
-          onChange={(e) => setFormData({ ...formData, brand_id: e.target.value })}
+          type="text"
+          placeholder="Supplier Details"
+          value={formData.supplier_details}
+          onChange={(e) => setFormData({ ...formData, supplier_details: e.target.value })}
         />
         <input
           style={styles.input}
