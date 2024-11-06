@@ -1,84 +1,72 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react';
 import './Branches.css';
-import BranchManageService from '../../components/service/BranchManage/BranchManageService';
 import axios from 'axios';
 
 export default function Branches() {
 
-  const [branchList, setBranchList] = React.useState([]);
+  const [branchList, setBranchList] = useState([]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedBranch, setSelectedBranch] = useState(null);
 
-  let branch = {
-    branch_id: 0,
-    branch_name: "",
-    contact_number: "",
-    is_disabled: 0,
-    location: "",
-
-  }
-
-  const handleCreateNewBranch = () => {   // function for creating a new branch 
-    // Add the logic for creating a new branch here
-    alert("Create New Branch button clicked!");
+  const handleEditBranch = (branchId) => {   
+    const branchToEdit = branchList.find(branch => branch.branch_id === branchId);
+    setSelectedBranch(branchToEdit);
+    setIsEditModalOpen(true);
   };
 
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedBranch(null);
+  };
 
-  const handleDisableBranch = async (branchId) => {   // function for disabling a branch
-      branch.branch_id = branchId;
-      branch.is_disabled = 1;
+  const handleSaveChanges = () => {
+    // Save changes logic here (e.g., send updated branch to the server)
+    alert("Changes saved!");
+    closeEditModal();
+  };
 
-      try{
-        await axios.post('http://localhost:8080/api/branchManagement/updateIsDisabled', branch);
-        alert("Branch disabled successfully!");
-        getAllBranches();
-      }catch(err){
-          console.log(err);
-      }
-  }
+  const handleDisableBranch = async (branchId) => {   
+    try {
+      await axios.post('http://localhost:8080/api/branchManagement/updateIsDisabled', { branch_id: branchId, is_disabled: 1 });
+      alert("Branch disabled successfully!");
+      getAllBranches();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  const handleEnableBranch = async (branchId) => {   // function for enabling a branch
-    branch.branch_id = branchId;
-    branch.is_disabled = 0;
-
-    try{
-      await axios.post('http://localhost:8080/api/branchManagement/updateIsDisabled', branch);
+  const handleEnableBranch = async (branchId) => {   
+    try {
+      await axios.post('http://localhost:8080/api/branchManagement/updateIsDisabled', { branch_id: branchId, is_disabled: 0 });
       alert("Branch enabled successfully!");
       getAllBranches();
-    }catch(err){
-        console.log(err);
+    } catch (err) {
+      console.log(err);
     }
-  }
-
-
+  };
 
   const getAllBranches = async () => {
-      try{
-          const response = await axios.get('http://localhost:8080/api/branchManagement/getAllBranches');
-          console.log(response.data);
-          setBranchList(response.data);
-
-      }catch(err){
-          console.log(err);
-      }
-  }
+    try {
+      const response = await axios.get('http://localhost:8080/api/branchManagement/getAllBranches');
+      setBranchList(response.data);
+      console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     getAllBranches();
   }, []);
 
-
-
-
   return (
     <div className="app-container">
-    
       <div className="content">
-        
         <main className="main-content">
           <h3><center>All Branches</center></h3>
 
-          {/* Create New Branch Button */}
           <div className="button-container">
-            <button className="create-branch-btn" onClick={handleCreateNewBranch}>
+            <button className="create-branch-btn" onClick={() => alert("Create New Branch button clicked!")}>
               Create New Branch
             </button>
           </div>
@@ -97,22 +85,21 @@ export default function Branches() {
                 </tr>
               </thead>
               <tbody>
-
                 {
-                  branchList.length> 0 ? (
+                
+                  branchList.length > 0 ? (
                     branchList.map((branch) => (
                       <tr key={branch.branch_id}>
                         <td>{branch.branch_id}</td>
                         <td>{branch.branch_name}</td>
                         <td>{branch.location}</td>
                         <td>{branch.contact_number}</td>
-                        <td>{branch.manager_name== null? ('No manager Assigned'):(branch.manager_name)}</td>
+                        <td>{branch.manager_name == null ? 'No manager Assigned' : branch.manager_name}</td>
                         <td>{branch.is_disabled == 0? ("Enabled"):("Disabled")}</td>
                         <td>
                           <button className="edit-btn" onClick={() => handleEditBranch(branch.branch_id)}>
                             Edit
                           </button>
-
                           {branch.is_disabled == 0 ? (
                             <button className="disable-btn" onClick={() => handleDisableBranch(branch.branch_id)}>
                               Disable
@@ -122,7 +109,6 @@ export default function Branches() {
                               Enable
                             </button>
                           )}
-                          
                         </td>
                       </tr>
                     ))
@@ -130,15 +116,44 @@ export default function Branches() {
                     <tr>
                       <td colSpan="7" style={{ textAlign: 'center' }}>No branches available.</td>
                     </tr>
-                  )}
-                
-               
+                  )
+                }
               </tbody>
             </table>
           </div>
         </main>
-        
       </div>
+
+      {/* Edit Modal */}
+      {isEditModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Edit Branch</h3>
+            <label>Branch Name:</label>
+            <input 
+              type="text" 
+              value={selectedBranch.branch_name} 
+              onChange={(e) => setSelectedBranch({...selectedBranch, branch_name: e.target.value})}
+            />
+            <label>Location:</label>
+            <input 
+              type="text" 
+              value={selectedBranch.location} 
+              onChange={(e) => setSelectedBranch({...selectedBranch, location: e.target.value})}
+            />
+            <label>Contact Number:</label>
+            <input 
+              type="text" 
+              value={selectedBranch.contact_number} 
+              onChange={(e) => setSelectedBranch({...selectedBranch, contact_number: e.target.value})}
+            />
+            <div className="modal-buttons">
+              <button onClick={handleSaveChanges}>Save Changes</button>
+              <button onClick={closeEditModal}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  )
+  );
 }
