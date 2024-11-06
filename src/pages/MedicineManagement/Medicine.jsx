@@ -8,23 +8,32 @@ export default function Medicine() {
     medicine_id: '',
     medicine_name: '',
     supplier_details: '',
-    unit_type: '', 
+    unit_type: '',
     dose: '',
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
 
-  // Fetch medicines and suppliers from APIs
-  useEffect(() => {
+  // Function to fetch medicines from API
+  const fetchMedicines = () => {
     fetch('http://localhost:8080/api/medicine/getallmedicines')
       .then(response => response.json())
       .then(data => setMedicines(data))
       .catch(error => console.error('Error fetching medicines:', error));
+  };
 
+  // Function to fetch suppliers from API
+  const fetchSuppliers = () => {
     fetch('http://localhost:8080/api/v1/getsuppliers')
       .then(response => response.json())
       .then(data => setSuppliers(data))
       .catch(error => console.error('Error fetching suppliers:', error));
+  };
+
+  // Fetch medicines and suppliers on component mount
+  useEffect(() => {
+    fetchMedicines();
+    fetchSuppliers();
   }, []);
 
   const handleUpdateClick = (medicine) => {
@@ -32,7 +41,7 @@ export default function Medicine() {
       medicine_id: medicine.medicine_id,
       medicine_name: medicine.medicine_name,
       supplier_details: medicine.supplier_details,
-      unit_type: medicine.unit_type, 
+      unit_type: medicine.unit_type,
       dose: medicine.dose,
     });
     setIsUpdate(true);
@@ -45,7 +54,7 @@ export default function Medicine() {
       medicine_id: '',
       medicine_name: '',
       supplier_details: '',
-      unit_type: '', // Reset to empty string for new medicine
+      unit_type: '',
       dose: '',
     });
     setIsModalOpen(true);
@@ -58,39 +67,39 @@ export default function Medicine() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Prepare data for API call
-    const supplierId = formData.supplier_details.split(' - ')[0]; // Extract supplierId from supplier_details
-    const data = {
-      medicine_name: formData.medicine_name,
-      sup_id: parseInt(supplierId), // Convert supplierId to integer
-      u_type: formData.unit_type,
-      Dose: parseFloat(formData.dose),
+    const supplierId = formData.supplier_details.split(' - ')[0];
+    const medName = formData.medicine_name;
+    const supId = parseInt(supplierId);
+    const unitType = formData.unit_type;
+    const dose = parseFloat(formData.dose);
+
+    const medicineData = {
+      medicine_name: medName,
+      supplier_id: supId,
+      unit_type: unitType,
+      dose: dose,
     };
 
-    if (isUpdate) {
-      // Handle update logic
-      console.log('Updating medicine:', data);
-      // Update logic can be added here (e.g., PUT request to update the medicine)
-    } else {
-      // Handle add logic
-      fetch('http://localhost:8080/api/medicine/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-        .then(response => response.json())
-        .then((data) => {
+    fetch('http://localhost:8080/api/medicine/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(medicineData),
+    })
+      .then((response) => {
+        if (response.ok) {
           alert('Medicine added successfully!');
-          setMedicines([...medicines, data]); // Add the new medicine to the list
           handleCloseModal();
-        })
-        .catch((error) => {
-          console.error('Error adding medicine:', error);
-          alert('Error occurred while adding the medicine.');
-        });
-    }
+          fetchMedicines(); // Reload medicines
+        } else {
+          alert('Failed to add medicine.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error adding medicine:', error);
+        alert('Error occurred while adding the medicine.');
+      });
   };
 
   const handleSupplierChange = (event) => {
@@ -98,27 +107,23 @@ export default function Medicine() {
   };
 
   const handleUnitTypeChange = (event) => {
-    setFormData({ ...formData, unit_type: event.target.value }); // Ensure unit_type is updated
+    setFormData({ ...formData, unit_type: event.target.value });
   };
 
-  // Delete medicine with confirmation
   const handleDeleteClick = (medicineId) => {
-    console.log('Deleting medicine with ID:', medicineId);
     const confirmDelete = window.confirm("Are you sure you want to delete this medicine?");
     if (!confirmDelete) return;
 
     fetch(`http://localhost:8080/api/medicine/delete?medId=${medicineId}`, {
       method: 'DELETE',
     })
-      .then((response) => response.text()) // Get the response message from the backend
+      .then((response) => response.text())
       .then((data) => {
         if (data === 'Medicine deleted successfully.') {
           alert('Medicine deleted successfully.');
-          // Optionally, update the UI to reflect the deletion
           setMedicines(medicines.filter((medicine) => medicine.medicine_id !== medicineId));
         } else {
-          console.error('Error deleting medicine:', data.message);
-          alert(data); // Display the error message (e.g., medicine is in inventory)
+          alert(data);
         }
       })
       .catch((error) => {
@@ -211,7 +216,6 @@ export default function Medicine() {
               <option value="tablet">Tablet</option>
               <option value="capsule">Capsule</option>
               <option value="syrup">Syrup</option>
-              {/* Add more unit types as needed */}
             </select>
 
             <label className="highlightedLabel">Dose</label>
