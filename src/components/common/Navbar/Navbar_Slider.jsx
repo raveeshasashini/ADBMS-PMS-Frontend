@@ -1,10 +1,10 @@
 import React from 'react'
 import { useState } from 'react';
-
 import UserList from '../../UserManagement/UserList';
-import Dashboard from '../../Dashboard/Dashboard';
 import ReportGenerate from '../../ReportGenerate/ReportGenerate';
 import Branches from '../../../pages/Branch Management/Branches';
+import Dashboard from '../../Dashboard/Dashboard';
+
 
 
 
@@ -84,16 +84,17 @@ export default function Navbar_Slider() {
                 </>
                 ) :
 
+
                 activeComponent === 'Dashboard' ? (
                     <Dashboard/> // Display Dashboard component when "Dashboard" is active
                 ) :
+
 
 
                 activeComponent === 'Report Generate' ? (
                     <ReportGenerate/> // Display Reports Tab component when "Report Generate" is active
                 )
                 :
-
                 (
                     <div>
                         <h2>Welcome to the {activeComponent}</h2>

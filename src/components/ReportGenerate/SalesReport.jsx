@@ -8,6 +8,19 @@ function SalesReport() {
     const [selectedMonth, setSelectedMonth] = useState('JANUARY');
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const[branchId,setBranchId]=useState(1);
+    const [user, setUser] = useState(null);
+
+
+    const storedData = localStorage.getItem('user');
+    
+    useEffect(() => {
+        if(storedData){
+            setUser(JSON.parse(storedData));
+            setBranchId(user.branch_id);
+        }else{
+            setUser(null);
+        }
+    }, []);
 
     useEffect(() => {
         if (salesBy === 'Day' && selectedDate) {
