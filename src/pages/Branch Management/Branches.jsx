@@ -1,12 +1,32 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Branches.css';
+import BranchManageService from '../../components/service/BranchManage/BranchManageService';
+import axios from 'axios';
 
 export default function Branches() {
+
+  const [branchList, setBranchList] = React.useState([]);
 
   const handleCreateNewBranch = () => {
     // Add the logic for creating a new branch here
     alert("Create New Branch button clicked!");
   };
+
+  const getAllBranches = async () => {
+      try{
+          const response = await axios.get('http://localhost:8080/api/branchManagement/getAllBranches');
+          console.log(response.data);
+          setBranchList(response.data);
+
+      }catch(err){
+          console.log(err);
+      }
+  }
+
+  useEffect(() => {
+    getAllBranches();
+  }, []);
+
 
   return (
     <div className="app-container">
@@ -32,267 +52,47 @@ export default function Branches() {
                   <th>Location</th>
                   <th>Contact No</th>
                   <th>Manager</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {/* Example data */}
-                <tr>
-                  <td>B001</td>
-                  <td>Central Pharmacy</td>
-                  <td>Main Street, Colombo</td>
-                  <td>0112345678</td>
-                  <td>John Doe</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>B002</td>
-                  <td>North Pharmacy</td>
-                  <td>North Street, Jaffna</td>
-                  <td>0212345678</td>
-                  <td>Jane Smith</td>
-                  <td>
-                    <button className="edit-btn" onClick={() => handleEditBranch('B001')}>
-                      Edit
-                    </button>
-                    <button className="delete-btn" onClick={() => handleDeleteBranch('B001')}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-                {/* Add more rows as needed */}
+
+                {
+                  branchList.length> 0 ? (
+                    branchList.map((branch) => (
+                      <tr key={branch.branch_id}>
+                        <td>{branch.branch_id}</td>
+                        <td>{branch.branch_name}</td>
+                        <td>{branch.location}</td>
+                        <td>{branch.contact_number}</td>
+                        <td>{branch.manager_name== null? ('No manager Assigned'):(branch.manager_name)}</td>
+                        <td>{branch.is_disabled == 0? ("Enabled"):("Disabled")}</td>
+                        <td>
+                          <button className="edit-btn" onClick={() => handleEditBranch(branch.branch_id)}>
+                            Edit
+                          </button>
+
+                          {branch.is_disabled == 0 ? (
+                            <button className="disable-btn" onClick={() => handleDisableBranch(branch.branch_id)}>
+                              Disable
+                            </button>
+                          ) : (
+                            <button className="enable-btn" onClick={() => handleEnableBranch(branch.branch_id)}>
+                              Enable
+                            </button>
+                          )}
+                          
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="6" style={{ textAlign: 'center' }}>No branches available.</td>
+                    </tr>
+                  )}
+                
+               
               </tbody>
             </table>
           </div>
