@@ -57,14 +57,40 @@ export default function Medicine() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Prepare data for API call
+    const supplierId = formData.supplier_details.split(' - ')[0]; // Extract supplierId from supplier_details
+    const data = {
+      medicine_name: formData.medicine_name,
+      sup_id: parseInt(supplierId), // Convert supplierId to integer
+      u_type: formData.unit_type,
+      Dose: parseFloat(formData.dose),
+    };
+
     if (isUpdate) {
       // Handle update logic
-      console.log('Updating medicine:', formData);
+      console.log('Updating medicine:', data);
+      // Update logic can be added here (e.g., PUT request to update the medicine)
     } else {
       // Handle add logic
-      console.log('Adding new medicine:', formData);
+      fetch('http://localhost:8080/api/medicine/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => response.json())
+        .then((data) => {
+          alert('Medicine added successfully!');
+          setMedicines([...medicines, data]); // Add the new medicine to the list
+          handleCloseModal();
+        })
+        .catch((error) => {
+          console.error('Error adding medicine:', error);
+          alert('Error occurred while adding the medicine.');
+        });
     }
-    handleCloseModal();
   };
 
   const handleSupplierChange = (event) => {
