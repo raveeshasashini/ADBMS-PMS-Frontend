@@ -240,6 +240,7 @@ export default function Medicine() {
               value={formData.unit_type} 
               onChange={handleUnitTypeChange} 
             >
+              <option value=""></option>
               <option value="tablet">Tablet</option>
               <option value="capsule">Capsule</option>
               <option value="syrup">Syrup</option>
