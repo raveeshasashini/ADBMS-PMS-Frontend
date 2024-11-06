@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
-import UserList from '../UserManagement/UserList';
+import UserList from '../../UserManagement/UserList';
 import ReportGenerate from '../../ReportGenerate/ReportGenerate';
 import Dashboard from '../../Dashboard/Dashboard';
 
