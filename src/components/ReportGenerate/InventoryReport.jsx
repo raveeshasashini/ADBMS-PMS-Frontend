@@ -4,42 +4,42 @@ export default function InventoryReport() {
   const [stockData, setStockData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [branchId, setBranchId] = useState(1); // Default branch ID
+  const [branchId, setBranchId] = useState(null); // Initialize as null until user data is available
 
   const [user, setUser] = useState(null);
 
-
+  useEffect(() => {
     const storedData = localStorage.getItem('user');
-    useEffect(() => {
-        if(storedData){
-            setUser(JSON.parse(storedData));
-            setBranchId(user.branch_id);
-        }else{
-            setUser(null);
-        }
-    }, []);
+    if (storedData) {
+      const parsedUser = JSON.parse(storedData);
+      setUser(parsedUser);
+      setBranchId(parsedUser.branch_id); // Set branchId after user is loaded
+    }
+  }, []);
 
   useEffect(() => {
-    const fetchStockData = async () => {
-      setLoading(true); // Start loading
-      setError(null); // Reset error before fetching
+    if (branchId !== null) { // Only fetch data if branchId is set
+      const fetchStockData = async () => {
+        setLoading(true);
+        setError(null);
 
-      try {
-        const response = await fetch(`http://localhost:8080/api/report/stockLevel?branchId=${branchId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch stock data');
+        try {
+          const response = await fetch(`http://localhost:8080/api/report/stockLevel?branchId=${branchId}`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch stock data');
+          }
+          const data = await response.json();
+          setStockData(data);
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setLoading(false);
         }
-        const data = await response.json();
-        setStockData(data); // Update with fetched data
-      } catch (error) {
-        setError(error.message); // Set error if fetch fails
-      } finally {
-        setLoading(false); // Stop loading
-      }
-    };
+      };
 
-    fetchStockData();
-  }, [branchId]); // Re-fetch if branchId changes
+      fetchStockData();
+    }
+  }, [branchId]);
 
   return (
     <div>
@@ -56,7 +56,7 @@ export default function InventoryReport() {
         <tbody>
           {Array.isArray(stockData) && stockData.length === 0 ? (
             <tr>
-              <td colSpan="3" className="text-center">No stock data available</td>
+              <td colSpan="2" className="text-center">No stock data available</td>
             </tr>
           ) : (
             stockData.map((item, index) => (

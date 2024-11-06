@@ -56,7 +56,7 @@ const LowStockReport = () => {
                 <tbody>
                 {Array.isArray(lowStockItems) && lowStockItems.length === 0 ? (
                     <tr>
-                        <td colSpan={Object.keys(lowStockItems[0]).length} className="text-center">No low stock items available</td>
+                        <td colSpan='3' className="text-center">No low stock items available</td>
                     </tr>
                 ) : (
                     lowStockItems.map((item, index) => (
