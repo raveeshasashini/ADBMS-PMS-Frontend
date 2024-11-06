@@ -7,6 +7,7 @@ export default function Branches() {
   const [branchList, setBranchList] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedBranch, setSelectedBranch] = useState(null);
+  const [managerList, setManagerList] = useState([]);
 
   const handleEditBranch = (branchId) => {   
     const branchToEdit = branchList.find(branch => branch.branch_id === branchId);
@@ -19,9 +20,18 @@ export default function Branches() {
     setSelectedBranch(null);
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     // Save changes logic here (e.g., send updated branch to the server)
-    alert("Changes saved!");
+    try{
+        await axios.put ('http://localhost:8080/api/branchManagement/procedure_update_branch', { branch_id: selectedBranch.branch_id, branch_name: selectedBranch.branch_name, location: selectedBranch.location, contact_number: selectedBranch.contact_number, user_id: selectedBranch.user_id });
+        alert("Changes saved!");
+        console.log(selectedBranch);
+        getAllBranches();
+    } catch (err) {
+      console.log(err);
+    }
+    
+    
     closeEditModal();
   };
 
@@ -49,6 +59,17 @@ export default function Branches() {
     try {
       const response = await axios.get('http://localhost:8080/api/branchManagement/getAllBranches');
       setBranchList(response.data);
+      // console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
+  const getAllManagers = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/branchManagement/getAllManagers');
+      setManagerList(response.data);
       console.log(response.data);
     } catch (err) {
       console.log(err);
@@ -57,6 +78,7 @@ export default function Branches() {
 
   useEffect(() => {
     getAllBranches();
+    getAllManagers();
   }, []);
 
   return (
@@ -147,6 +169,26 @@ export default function Branches() {
               value={selectedBranch.contact_number} 
               onChange={(e) => setSelectedBranch({...selectedBranch, contact_number: e.target.value})}
             />
+            
+
+            {console.log(managerList)}
+
+            <label>Manager:</label>
+            <select
+              value={selectedBranch.user_id} 
+              onChange={(e) => setSelectedBranch({...selectedBranch, user_id: e.target.value})}
+            >
+              <option value="">Select Manager</option>
+              {managerList.map(manager => (
+                <option key={manager.user_id} value={manager.user_id}>
+                  {manager.user_id + " - " + manager.name}
+                </option>
+              ))}
+            </select>
+
+
+
+
             <div className="modal-buttons">
               <button onClick={handleSaveChanges}>Save Changes</button>
               <button onClick={closeEditModal}>Cancel</button>
