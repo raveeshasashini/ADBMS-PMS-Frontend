@@ -26,11 +26,12 @@ export default function SupplierList() {
         setLoading(true);
         try {
             const response = await axios.get("http://localhost:8080/api/v1/getsuppliers");
+            console.log("Suppliers fetched:", response.data);
             setSuppliers(response.data);
             setFilteredSuppliers(response.data); 
         } catch (error) {
             setError("Error fetching suppliers");
-        }finally{
+        } finally {
             setLoading(false);
         }
     };
@@ -39,8 +40,7 @@ export default function SupplierList() {
     const handleSearchChange = (e) => {
         const value = e.target.value;
         setSearchTerm(value);
-        
-        
+
         const filtered = suppliers.filter((supplier) =>
             supplier.supplierName.toLowerCase().includes(value.toLowerCase())
         );
@@ -99,17 +99,37 @@ export default function SupplierList() {
         }
     };
 
-    const handleEdit = (supplier) => {
-        setFormData({
-            supplierName: supplier.supplierName,
-            salesRepresentative: supplier.saleRepName,
-            address: supplier.address,
-            contactNumber: supplier.phoneNumber,
-            email: supplier.email
-        });
-        setIsEditing(true);
-        setEditingSupplierId(supplier.supplierId); 
+    const handleEdit = async (supplier) => {
+        if (!supplier.supplierId) {
+            console.error("No supplier ID provided!");
+            return;
+        }
+        console.log("Editing supplier with ID:", supplier.supplierId);
+    
+        setLoading(true); 
+        try {
+            
+            const response = await axios.get(`http://localhost:8080/api/v1/getSupplierById/${supplier.supplierId}`);
+            
+            
+            setFormData({
+                supplierName: response.data.supplierName,
+                salesRepresentative: response.data.saleRepName,
+                address: response.data.address,
+                contactNumber: response.data.phoneNumber,
+                email: response.data.email
+            });
+            
+            setIsEditing(true); 
+            setEditingSupplierId(supplier.supplierId); 
+        } catch (error) {
+            console.error("Error fetching supplier data:", error);
+            setError("Error fetching supplier data");
+        } finally {
+            setLoading(false); 
+        }
     };
+    
 
     return (
         <>
@@ -119,10 +139,7 @@ export default function SupplierList() {
                     placeholder="Search Supplier Name"
                     value={searchTerm}
                     onChange={handleSearchChange}
-                    // className="form-control"
-                    style={{maxWidth:'300px',border: "2px solid black", 
-                        borderRadius: '0.25rem', 
-                        }}
+                    style={{maxWidth:'300px',border: "2px solid black", borderRadius: '0.25rem'}}
                 />
             </div>
             <div className='table-container bg-white p-3 rounded shadow-sm mb-4'
@@ -133,59 +150,56 @@ export default function SupplierList() {
                     maxWidth: '100%',
                 }}>
                     {loading ? (
-                    <p>Loading data...</p>
-                ) : error ? (
-                    <p style={{ color: 'red' }}>{error}</p>
-                ) : (
-                <table className='table' style={{ minWidth: '800px' }}>
-                    <thead>
-                        <tr>
-                            <th scope='col'>Supplier Name</th>
-                            <th scope='col'>Sales Representative</th>
-                            <th scope='col'>Address</th>
-                            <th scope='col'>Contact Number</th>
-                            <th scope='col'>Email</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredSuppliers.length > 0 ? (
-                            filteredSuppliers.map((supplier) => (
-                                <tr key={supplier.supplierId}>
-                                    <td>{supplier.supplierName}</td>
-                                    <td>{supplier.saleRepName}</td>
-                                    <td>{supplier.address}</td>
-                                    <td>{supplier.phoneNumber}</td>
-                                    <td>{supplier.email}</td>
-                                    <td>
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary btn-sm"
-                                            onClick={() => handleEdit(supplier)}
-                                        >
-                                            Edit
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button
-                                            type="button"
-                                            className="btn btn-danger btn-sm "
-                                            style={{ color: "white" }}
-                                            
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
+                        <p>Loading data...</p>
+                    ) : error ? (
+                        <p style={{ color: 'red' }}>{error}</p>
+                    ) : (
+                    <table className='table' style={{ minWidth: '800px' }}>
+                        <thead>
                             <tr>
-                                <td colSpan="6"></td>
+                                <th scope='col'>Supplier Name</th>
+                                <th scope='col'>Sales Representative</th>
+                                <th scope='col'>Address</th>
+                                <th scope='col'>Contact Number</th>
+                                <th scope='col'>Email</th>
+                                <th scope="col">Action</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
-                )}
+                        </thead>
+                        <tbody>
+                            {filteredSuppliers.length > 0 ? (
+                                filteredSuppliers.map((supplier) => (
+                                    <tr key={supplier.supplierId}>
+                                        <td>{supplier.supplierName}</td>
+                                        <td>{supplier.saleRepName}</td>
+                                        <td>{supplier.address}</td>
+                                        <td>{supplier.phoneNumber}</td>
+                                        <td>{supplier.email}</td>
+                                        <td>
+                                            <button
+                                                type="button"
+                                                className="btn btn-primary btn-sm"
+                                                
+                                                onClick={() => {
+                                                    console.log("Supplier in edit:", supplier);  // Log the supplier object
+                                                    handleEdit(supplier);
+                                                }}
+                                            >
+                                                Edit
+                                            </button>
+                                        </td>
+                                        <td>
+                                           
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="6">No suppliers found</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                    )}
             </div>
 
             <div className="bg-white p-3 rounded shadow mb-4">

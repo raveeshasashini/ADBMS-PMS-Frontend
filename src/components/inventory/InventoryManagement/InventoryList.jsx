@@ -15,13 +15,13 @@ export default function InventoryList() {
     const [updateMode, setUpdateMode] = useState(false);
     const [updateId, setUpdateId] = useState(null);
     const [suppliers, setSuppliers] = useState([]);
-    //const [medicines, setMedicines] = useState([]);
+    const [medicines, setMedicines] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         fetchInventoryData();
-        //fetchMedicineList();
+        fetchMedicineList();
         fetchSupplierList();
 
         // Retrieve the branchId from localStorage (if present)
@@ -51,12 +51,12 @@ export default function InventoryList() {
             .catch((error) => console.error("Error fetching supplier list:", error));
     };
 
-    // const fetchMedicineList = () => {
-    //     fetch("http://localhost:8080/api/v1/medicines") 
-    //         .then((response) => response.json())
-    //         .then((data) => setMedicines(data))
-    //         .catch((error) => console.error("Error fetching medicine list:", error));
-    // };
+    const fetchMedicineList = () => {
+        fetch("http://localhost:8080/api/medicine/getallmedicines") 
+            .then((response) => response.json())
+            .then((data) => setMedicines(data))
+            .catch((error) => console.error("Error fetching medicine list:", error));
+    };
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -165,7 +165,19 @@ export default function InventoryList() {
                 <form className="row g-3">
                     <div className="col-md-3">
                         <label className="form-label">Medicine Id</label>
-                        <input type="number" min={1} name="medicineId" value={formData.medicineId} onChange={handleInputChange} className="form-control" />
+                        <select
+                            name="medicineId"
+                            value={formData.medicineId}
+                            onChange={handleInputChange}
+                            className="form-control"
+                        >
+                            <option value="">Select Medicine</option>
+                            {medicines.map((medicine) => (
+                                <option key={medicine.id} value={medicine.id}>
+                                    {medicine.name} (ID: {medicine.id})
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className="col-md-3">
                         <label className="form-label">Supplier Id</label>
