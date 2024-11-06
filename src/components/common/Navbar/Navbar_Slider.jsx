@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import UserList from '../../UserManagement/UserList';
 import ReportGenerate from '../../ReportGenerate/ReportGenerate';
+import Branches from '../../../pages/Branch Management/Branches';
 import Dashboard from '../../Dashboard/Dashboard';
 
 
@@ -12,6 +13,7 @@ export default function Navbar_Slider() {
 
     const handleNavClick = (component) => {
         setActiveComponent(component);
+        
     }
 
     const logout = () => {
@@ -33,7 +35,7 @@ export default function Navbar_Slider() {
                     />
                     <p className="mt-2">Hi, Lakindu</p>
                 </div>
-                {['Dashboard', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory', 'User Manage', 'Purches Manage','Report Generate'].map((item, index) => (
+                {['Dashboard','Branch Manage', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory', 'User Manage', 'Purches Manage','Report Generate'].map((item, index) => (
                     <a 
                     key={index} 
                     className="nav-link text-white my-2 p-2 rounded border-danger" 
@@ -74,6 +76,12 @@ export default function Navbar_Slider() {
                 {/* Conditionally render components based on the activeComponent */}
                 {activeComponent === 'User Manage' ? (
                     <UserList /> // Display UserList component when "User Manage" is active
+                ) : 
+                activeComponent === 'Branch Manage' ? (
+                <>
+                {/* Call Branches page */}
+                    <Branches/>
+                </>
                 ) :
 
 

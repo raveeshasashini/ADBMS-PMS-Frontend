@@ -14,6 +14,7 @@ function SalesReport() {
     const storedData = localStorage.getItem('user');
     
     useEffect(() => {
+
         if (storedData) {
             const parsedUser = JSON.parse(storedData);
             setUser(parsedUser);
@@ -28,6 +29,7 @@ function SalesReport() {
         }
     }, [storedData]);
     
+
 
     useEffect(() => {
         if (salesBy === 'Day' && selectedDate) {

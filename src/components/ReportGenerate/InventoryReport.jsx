@@ -8,6 +8,19 @@ export default function InventoryReport() {
 
   const [user, setUser] = useState(null);
 
+  const [user, setUser] = useState(null);
+
+
+    const storedData = localStorage.getItem('user');
+    useEffect(() => {
+        if(storedData){
+            setUser(JSON.parse(storedData));
+            setBranchId(user.branch_id);
+        }else{
+            setUser(null);
+        }
+    }, []);
+
   useEffect(() => {
     const storedData = localStorage.getItem('user');
     if (storedData) {
