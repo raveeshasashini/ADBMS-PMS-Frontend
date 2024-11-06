@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 export default function Medicine() {
   const [medicines, setMedicines] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
   const [formData, setFormData] = useState({
     medicine_id: '',
     medicine_name: '',
@@ -12,11 +13,17 @@ export default function Medicine() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
 
+  // Fetch medicines and suppliers from APIs
   useEffect(() => {
     fetch('http://localhost:8080/api/medicine/getallmedicines')
       .then(response => response.json())
       .then(data => setMedicines(data))
       .catch(error => console.error('Error fetching medicines:', error));
+
+    fetch('http://localhost:8080/api/v1/getsuppliers')
+      .then(response => response.json())
+      .then(data => setSuppliers(data))
+      .catch(error => console.error('Error fetching suppliers:', error));
   }, []);
 
   const handleUpdateClick = (medicine) => {
@@ -57,6 +64,10 @@ export default function Medicine() {
       console.log('Adding new medicine:', formData);
     }
     handleCloseModal();
+  };
+
+  const handleSupplierChange = (event) => {
+    setFormData({ ...formData, supplier_details: event.target.value });
   };
 
   const styles = {
@@ -134,7 +145,7 @@ export default function Medicine() {
       backgroundColor: 'white',
       padding: '30px',
       borderRadius: '8px',
-      width: '500px', // Increased width
+      width: '500px', 
       height: 'auto',
       margin: '0 10px',
     },
@@ -161,6 +172,10 @@ export default function Medicine() {
       borderRadius: '5px',
       cursor: 'pointer',
       marginTop: '10px',
+      width: '250px',
+      display: 'block',  
+      marginLeft: 'auto',  
+      marginRight: 'auto',
     },
     modalCloseButton: {
       padding: '10px 15px',
@@ -170,6 +185,15 @@ export default function Medicine() {
       borderRadius: '5px',
       cursor: 'pointer',
       marginTop: '10px',
+      width: '250px',
+      display: 'block',  
+      marginLeft: 'auto',  
+      marginRight: 'auto',
+    },
+    highlightedLabel: {
+      fontWeight: 'bold',
+      color: '#505456  ', 
+      marginBottom: '5px',
     },
   };
 
@@ -221,35 +245,44 @@ export default function Medicine() {
         <div style={styles.modalContent}>
           <h4 style={styles.modalHeader}>{isUpdate ? 'Update Medicine' : 'Add New Medicine'}</h4>
           <form style={styles.modalForm} onSubmit={handleSubmit}>
+            <label style={styles.highlightedLabel}>Medicine Name</label>
             <input 
               type="text" 
-              placeholder="Medicine Name" 
               style={styles.modalInput}
               value={formData.medicine_name}
               onChange={(e) => setFormData({...formData, medicine_name: e.target.value})}
             />
-            <input 
-              type="text" 
-              placeholder="Supplier Details" 
-              style={styles.modalInput}
+
+            <label style={styles.highlightedLabel}>Supplier</label>
+            <select 
+              style={styles.modalInput} 
               value={formData.supplier_details}
-              onChange={(e) => setFormData({...formData, supplier_details: e.target.value})}
-            />
+              onChange={handleSupplierChange}
+            >
+              <option value=""></option>
+              {suppliers.map(supplier => (
+                <option key={supplier.supplierId} value={`${supplier.supplierId} - ${supplier.supplierName}`}>
+                  {supplier.supplierId} - {supplier.supplierName}
+                </option>
+              ))}
+            </select>
+
+            <label style={styles.highlightedLabel}>Unit Type</label>
             <input 
               type="text" 
-              placeholder="Unit Type" 
               style={styles.modalInput}
               value={formData.unit_type}
               onChange={(e) => setFormData({...formData, unit_type: e.target.value})}
             />
+
+            <label style={styles.highlightedLabel}>Dose</label>
             <input 
               type="number" 
-              placeholder="Dose" 
-              step="0.01" 
               style={styles.modalInput}
               value={formData.dose}
               onChange={(e) => setFormData({...formData, dose: e.target.value})}
             />
+
             <button type="submit" style={styles.modalButton}>{isUpdate ? 'Update' : 'Add'}</button>
             <button type="button" style={styles.modalCloseButton} onClick={handleCloseModal}>Close</button>
           </form>
