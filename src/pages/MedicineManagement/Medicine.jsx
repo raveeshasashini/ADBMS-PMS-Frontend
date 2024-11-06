@@ -14,7 +14,7 @@ export default function Medicine() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
 
-  // Function to fetch medicines from API
+  // Fetch medicines from API
   const fetchMedicines = () => {
     fetch('http://localhost:8080/api/medicine/getallmedicines')
       .then(response => response.json())
@@ -22,7 +22,7 @@ export default function Medicine() {
       .catch(error => console.error('Error fetching medicines:', error));
   };
 
-  // Function to fetch suppliers from API
+  // Fetch suppliers from API
   const fetchSuppliers = () => {
     fetch('http://localhost:8080/api/v1/getsuppliers')
       .then(response => response.json())
@@ -30,7 +30,6 @@ export default function Medicine() {
       .catch(error => console.error('Error fetching suppliers:', error));
   };
 
-  // Fetch medicines and suppliers on component mount
   useEffect(() => {
     fetchMedicines();
     fetchSuppliers();
@@ -44,6 +43,7 @@ export default function Medicine() {
       unit_type: medicine.unit_type,
       dose: medicine.dose,
     });
+    console.log(medicine.supplier_id);
     setIsUpdate(true);
     setIsModalOpen(true);
   };
@@ -68,18 +68,22 @@ export default function Medicine() {
     event.preventDefault();
 
     const supplierId = formData.supplier_details.split(' - ')[0];
-    const medName = formData.medicine_name;
-    const supId = parseInt(supplierId);
-    const unitType = formData.unit_type;
-    const dose = parseFloat(formData.dose);
-
     const medicineData = {
-      medicine_name: medName,
-      supplier_id: supId,
-      unit_type: unitType,
-      dose: dose,
+      medicine_id: formData.medicine_id,
+      medicine_name: formData.medicine_name,
+      supplier_id: parseInt(supplierId),
+      unit_type: formData.unit_type,
+      dose: parseFloat(formData.dose),
     };
 
+    if (isUpdate) {
+      updateMedicine(medicineData);
+    } else {
+      addMedicine(medicineData);
+    }
+  };
+
+  const addMedicine = (medicineData) => {
     fetch('http://localhost:8080/api/medicine/add', {
       method: 'POST',
       headers: {
@@ -91,7 +95,7 @@ export default function Medicine() {
         if (response.ok) {
           alert('Medicine added successfully!');
           handleCloseModal();
-          fetchMedicines(); // Reload medicines
+          fetchMedicines();
         } else {
           alert('Failed to add medicine.');
         }
@@ -99,6 +103,29 @@ export default function Medicine() {
       .catch((error) => {
         console.error('Error adding medicine:', error);
         alert('Error occurred while adding the medicine.');
+      });
+  };
+
+  const updateMedicine = (medicineData) => {
+    fetch('http://localhost:8080/api/medicine/update', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(medicineData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert('Medicine updated successfully!');
+          handleCloseModal();
+          fetchMedicines();
+        } else {
+          alert('Failed to update medicine.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating medicine:', error);
+        alert('Error occurred while updating the medicine.');
       });
   };
 
