@@ -8,6 +8,8 @@ export default function Branches() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [managerList, setManagerList] = useState([]);
+  
+  const [loading, setLoading] = useState(false);
 
   // states for creating a branch
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -62,6 +64,7 @@ export default function Branches() {
   };
 
   const getAllBranches = async () => {
+    setLoading(true);
     try {
       const response = await axios.get('http://localhost:8080/api/branchManagement/getAllBranches');
       setBranchList(response.data);
@@ -69,10 +72,12 @@ export default function Branches() {
     } catch (err) {
       console.log(err);
     }
+    setLoading(false);
   };
 
 
   const getAllManagers = async () => {
+    setLoading(true);
     try {
       const response = await axios.get('http://localhost:8080/api/branchManagement/getAllManagers');
       setManagerList(response.data);
@@ -80,6 +85,7 @@ export default function Branches() {
     } catch (err) {
       console.log(err);
     }
+    setLoading(false);
   };
 
   // functions for Create Branch modal
@@ -94,6 +100,7 @@ export default function Branches() {
 
 
   const handleSaveNewBranch = async () => {
+    setLoading(true);
     try {
       await axios.post('http://localhost:8080/api/branchManagement/procedure_insert_branch', newBranch);
       alert("New branch created successfully!");
@@ -102,6 +109,7 @@ export default function Branches() {
       console.log(err);
     }
     closeCreateModal();
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -136,7 +144,12 @@ export default function Branches() {
               </thead>
               <tbody>
                 {
-                
+                  loading ? (
+                    <tr>
+                      <td colSpan="7" style={{ textAlign: 'center' }}>Data loading...
+                      </td>
+                    </tr>
+                  ) :
                   branchList.length > 0 ? (
                     branchList.map((branch) => (
                       <tr key={branch.branch_id}>
