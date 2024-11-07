@@ -1,0 +1,296 @@
+.app-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 75vh;
+    overflow-y: auto; /* Enable vertical scrolling if content overflows */
+    font-family: Arial, sans-serif;
+  }
+  
+  .sidebar {
+    background-color: #2d2a5a;
+    color: white;
+    padding: 20px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .user-info {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .user-info .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  
+  .menu button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    background: transparent;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+  }
+  
+  .menu .selected {
+    background-color: white;
+    color: #2d2a5a;
+    font-weight: bold;
+  }
+  
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header {
+    background-color: #f0f0f0;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .main-content {
+    padding: 0px;
+  }
+  
+  .table-container {
+    margin-top: 20px;
+  }
+  
+  .branches-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .branches-table th, .branches-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .branches-table th {
+    background-color: #2d2a5a;
+    color: white;
+  }
+  
+  .footer {
+    background-color: #f0f0f0;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.8em;
+    border-top: 1px solid #ddd;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
+  
+  .create-branch-btn {
+    padding: 8px 20px;
+    background-color: #2d2a5a ; /* Adjust color to match your theme */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    width: auto;
+  }
+  
+  .create-branch-btn:hover {
+    background-color: #121124;
+  }
+  
+  .edit-btn{
+    padding: 3px 10px;
+    margin: 0 5px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: auto;
+    height: auto;
+  }
+  
+  .edit-btn {
+    background-color: #067421; /* Blue for edit */
+    color: white;
+  }
+  
+  .edit-btn:hover {
+    background-color: #042b0d;
+  }
+  
+
+
+
+  /* Enable and Disable Button Styles */
+  .enable-btn, .disable-btn {
+    padding: 3px 10px;
+    margin: 0 5px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: auto;
+    height: auto;
+  } 
+
+  /* Enable Button */
+.enable-btn {
+  background-color: #4CAF50; /* Green for enabling */
+  color: white;
+}
+
+.enable-btn:hover {
+  background-color: #388E3C;
+}
+
+/* Disable Button */
+.disable-btn {
+  background-color: #b81d12; /* Red for disabling */
+  color: white;
+}
+
+.disable-btn:hover {
+  background-color: #3f0707; /* Darker red on hover */
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 {
+  margin-top: 0;
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  padding: 8px 15px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-buttons button:first-child {
+  background-color: #067421;
+  color: white;
+}
+
+.modal-buttons button:last-child {
+  background-color: #b81d12;
+  color: white;
+}
+
+
+/* Styles for the Manager Selection Dropdown in the Modal */
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.modal-content select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  appearance: none; /* Removes default dropdown arrow for custom styling */
+  cursor: pointer;
+}
+
+.modal-content select:focus {
+  outline: none;
+  border-color: #2d2a5a; /* Matches primary theme color */
+  box-shadow: 0 0 5px rgba(45, 42, 90, 0.5);
+}
+
+.modal-content option {
+  padding: 10px;
+  color: #333;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  padding: 8px 15px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-buttons button:first-child {
+  background-color: #067421;
+  color: white;
+}
+
+.modal-buttons button:last-child {
+  background-color: #b81d12;
+  color: white;
+}
+
+/* Optional styling for custom dropdown arrow */
+.modal-content select {
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='5' viewBox='0 0 10 5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 5 5-5H0z' fill='%23333'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+}

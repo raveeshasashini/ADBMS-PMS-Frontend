@@ -1,8 +1,15 @@
 import React from 'react'
 import { useState } from 'react';
 import UserList from '../../UserManagement/UserList';
-import Dashboard from '../../Dashboard/Dashboard';
+import Medicine from '../../../pages/MedicineManagement/Medicine';
 import ReportGenerate from '../../ReportGenerate/ReportGenerate';
+import InventoryList from '../../inventory/InventoryManagement/InventoryList';
+import SupplierList from '../../inventory/InventoryManagement/SupplierList';
+import Branches from '../../../pages/Branch Management/Branches';
+import Dashboard from '../../Dashboard/Dashboard';
+import Stock from '../../../pages/StockManagement/stock';
+import Sales from '../../../pages/SalesManagement/Sales';
+
 
 
 
@@ -11,6 +18,7 @@ export default function Navbar_Slider() {
 
     const handleNavClick = (component) => {
         setActiveComponent(component);
+        
     }
 
     const logout = () => {
@@ -32,7 +40,7 @@ export default function Navbar_Slider() {
                     />
                     <p className="mt-2">Hi, Lakindu</p>
                 </div>
-                {['Dashboard', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory', 'User Manage', 'Purches Manage','Report Generate'].map((item, index) => (
+                {['Dashboard','Branch Manage', 'RCO Manage', 'RCO Payment', 'Sales', 'Medicine Manage','Stock Manage','Email', 'Inventory', 'Supplier Manage', 'User Manage', 'Purches Manage','Report Generate'].map((item, index) => (
                     <a 
                     key={index} 
                     className="nav-link text-white my-2 p-2 rounded border-danger" 
@@ -73,15 +81,35 @@ export default function Navbar_Slider() {
                 {/* Conditionally render components based on the activeComponent */}
                 {activeComponent === 'User Manage' ? (
                     <UserList /> // Display UserList component when "User Manage" is active
+                ) : 
+                activeComponent === 'Branch Manage' ? (
+                <>
+                {/* Call Branches page */}
+                    <Branches/>
+                </>
                 ) :
                 activeComponent === 'Dashboard' ? (
                     <Dashboard/> // Display Dashboard component when "Dashboard" is active
                 ) :
                 activeComponent === 'Report Generate' ? (
                     <ReportGenerate/> // Display Reports Tab component when "Report Generate" is active
+                ) :
+                activeComponent === 'Medicine Manage' ? (
+                    <Medicine/> // Display Reports Tab component when "Medicine" is active
+                ) :
+                activeComponent === 'Stock Manage' ? (
+                    <Stock/> // Display Reports Tab component when "Medicine" is active
+                ):
+                activeComponent==='Inventory'?(
+                    <InventoryList/>
                 )
                 :
-
+                activeComponent==='Supplier Manage'?(
+                    <SupplierList/>
+                ):
+                activeComponent==='Sales'?(
+                    <Sales/>
+                ):
                 (
                     <div>
                         <h2>Welcome to the {activeComponent}</h2>

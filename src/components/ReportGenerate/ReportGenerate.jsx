@@ -2,13 +2,35 @@ import React, { useState } from 'react'; // Added useState import
 import SalesReport from './SalesReport';
 import LowStockReport from './LowStockReport';
 import InventoryReport from './InventoryReport';
+import { useEffect } from 'react'; // Added useEffect import
+import PurchaseHistoryReport from './PurchaseHistoryReport';
+import ExpiryTracking from './ExpiryTracking';
 
 export default function ReportGenerate() {
   const [showReport, setShowReport] = useState('ReportGenerate'); // Initialize showReport state
-  
+  const[role_id,setRoleId]=useState(0);
+  const[branchId,setBranchId]=useState(0);
   const handleGenerateReport = (report) => {
     setShowReport(report);
   };
+
+
+  const [user, setUser] = useState(null);
+  
+
+    const storedData = localStorage.getItem('user');
+
+  
+    
+    useEffect(() => {
+      const storedData = localStorage.getItem('user');
+      if (storedData) {
+        const parsedUser = JSON.parse(storedData);
+        setUser(parsedUser);
+        setRoleId(parsedUser.role_id);  // Set role_id from parsedUser
+        setBranchId(parsedUser.branchId);  // Set branchId from parsedUser (if available)
+      }
+    }, []);
 
   // Define the Section component
   function Section({ title, children }) {
@@ -44,12 +66,25 @@ export default function ReportGenerate() {
   };
 
   return (
+ 
+    
      <div className="bg-white p-3 rounded shadow mb-4" style={{ overflow: 'scroll', height: "600px" }}>
+      
       {showReport !== 'ReportGenerate' && (
        <button className="btn btn-secondary mb-3" onClick={goBack}>Back</button>
       )}
 
-        {showReport === 'Total Sales Report' ? (
+      {
+        role_id==1 ? (
+
+          <>
+            
+          </>
+
+        ) : 
+        (
+          <>
+             {showReport === 'Total Sales Report' ? (
           <SalesReport/> // Display SalesReport component when "Total Sales Report" is active
         ) :
         showReport === 'Low Stock Alerts' ? (
@@ -57,6 +92,12 @@ export default function ReportGenerate() {
         ) :
         showReport === 'Current Inventory Levels' ? (
           <InventoryReport/>// Display LowStockReport component when "Low Stock Alerts" is active
+        ) :
+        showReport === 'Order History' ? (
+          <PurchaseHistoryReport/>
+        ) :
+        showReport === 'Expiry Tracking' ? (
+          <ExpiryTracking/>
         ) :
         showReport === 'ReportGenerate' &&
         (
@@ -74,11 +115,16 @@ export default function ReportGenerate() {
               <ReportCard title="Expiry Tracking" description="Track items nearing expiration to reduce waste." />
             </Section>
     
-            <Section title="Supplier Reports">
+            <Section title="Purchase Reports">
               <ReportCard title="Order History" description="Maintain a history of orders placed with suppliers." />
             </Section>
           </div>
         )}
+          </>
+        )
+      }
+
+       
       </div>
   );
 }

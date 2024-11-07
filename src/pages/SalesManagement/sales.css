@@ -1,0 +1,193 @@
+.sales-container {
+    display: flex;
+    gap: 10px;
+    padding: 5px;
+    height: calc(110vh - 40px); /* Adjusts for padding */
+    box-sizing: border-box;
+  }
+  
+  .left-column, .right-column {
+    flex: 1;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 100%;
+    overflow-y: auto; /* Adds vertical scroll if content overflows */
+    box-sizing: border-box;
+  }
+  
+  h4 {
+    margin-bottom: 5px;
+    color: #2d2a5a;
+    text-align: center;
+  }
+
+  .inventory-table-container {
+    height: 360px; /* Set a fixed height for the inventory table */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #ffffff;
+  }
+
+  .cart-table-container {
+    height: 380px; /* Set a fixed height for the cart table */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+  }
+
+  
+  /* Tables styling */
+  .inventory-table, .cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 5px;
+  }
+
+  .inventory-table :hover, .cart-table :hover {
+    cursor: pointer;
+  }
+  
+  .inventory-table th, .inventory-table td,
+  .cart-table th, .cart-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .inventory-table th, .cart-table th {
+    background-color: #2d2a5a;
+    color: white;
+  }
+  
+  .inventory-table td, .cart-table td {
+    background-color: #ffffff;
+  }
+  
+  /* Item input form styling */
+  .item-input-form {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px; /* Adds spacing from inventory table */
+    flex-wrap: wrap;
+    background-color: #ffffff;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 200px;
+    overflow-y: auto;
+  }
+  
+  .item-input-form input {
+    flex: 1 1 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 30px;
+  }
+  
+  .item-input-form button {
+    padding: 0px;
+    background-color: #2d2a5a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100px;
+    height: 30px;
+  }
+  
+  .item-input-form button:hover {
+    background-color: #52518a;
+  }
+  
+  /* Transaction summary styling */
+  .transaction-summary {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 180px;
+    overflow-y: auto;
+  }
+  
+  .transaction-summary p {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .transaction-summary input {
+    width: 150px;
+    height: 30px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: right;
+  }
+  
+  .transaction-summary button {
+    padding: 0px;
+    background-color: #2d2a5a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100px;
+    height: 30px;
+    margin: 5px;
+  }
+  
+  .transaction-summary button:hover {
+    background-color: #52518a;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .item-input-form input {
+    max-height: 30px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+
+  .cart-table button {
+    background-color: #e74c3c; /* Red background */
+    color: #fff; /* White text color */
+    border: none;
+    border-radius: 4px; /* Rounded corners */
+    padding: 4px 8px; /* Small padding */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition */
+    font-size: 12px; /* Smaller font size */
+  }
+  
+  .cart-table button:hover {
+    background-color: #c0392b; /* Darker red on hover */
+  }
+  
+  .cart-table button:focus {
+    outline: none; /* Remove outline */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Subtle shadow on focus */
+  }
+  
