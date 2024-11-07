@@ -164,6 +164,7 @@ export default function Sales() {
                             sold_item_unit_price:item.unit_price,
                             medicine_id:item.medicine_id
                         });
+                        getStockList(user.branch_id);
                     }}>
                     <td>{item.medicine_id}</td>
                     <td>{item.medicine_name}</td>
