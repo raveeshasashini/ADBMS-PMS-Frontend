@@ -8,7 +8,6 @@ export default function UserList() {
         name: '',
         contact_no: '',
         salary: '',
-        joined_date: '',
         email: '',
         password: '',
         branch_id: '',
@@ -45,7 +44,7 @@ export default function UserList() {
                 await axios.put(`http://localhost:8080/api/users/${editingUserId}`, formData);
             } else {
                 // Create new user
-                await api.post('http://localhost:8080/api/users', formData);
+                await axios.post('http://localhost:8080/api/users', formData);
             }
             resetForm();
             fetchUsers();
@@ -60,7 +59,6 @@ export default function UserList() {
             name: user.name,
             contact_no: user.contact_no,
             salary: user.salary,
-            joined_date: user.joined_date,
             email: user.email,
             password: user.password,
             branch_id: user.branch_id,
@@ -72,7 +70,7 @@ export default function UserList() {
     // Handle user deletion (soft delete)
     const handleDelete = async (user_id) => {
         try {
-            await api.delete(`http://localhost:8080/api/users/${user_id}`);
+            await axios.delete(`http://localhost:8080/api/users/${user_id}`);
             fetchUsers();
         } catch (error) {
             console.error("Error deleting user:", error);
@@ -85,7 +83,6 @@ export default function UserList() {
             name: '',
             contact_no: '',
             salary: '',
-            joined_date: '',
             email: '',
             password: '',
             branch_id: '',
@@ -229,7 +226,7 @@ export default function UserList() {
 
                     <div className='col-md-3'>
                         <label className="form-label">User Role</label>
-                        <select name="roleId" value={formData.roleId} onChange={handleChange} className='form-select' required>
+                        <select name="role_id" value={formData.role_id} onChange={handleChange} className='form-select' required>
                             <option value="" disabled>Select Role</option>
                             <option value="1">Admin</option>
                             <option value="2">Manager</option>
@@ -244,7 +241,7 @@ export default function UserList() {
 
                     <div className='col-md-3'>
                         <label className="form-label">Branch</label>
-                        <select name="branchId" value={formData.branchId} onChange={handleChange} className='form-select' required>
+                        <select name="branch_id" value={formData.branch_id} onChange={handleChange} className='form-select' required>
                             <option value="" disabled>Select Branch</option>
                             <option value="1">Gampaha</option>
                             <option value="2">Matara</option>
@@ -254,7 +251,7 @@ export default function UserList() {
 
                     <div className='col-md-3'>
                         <label className="form-label">Contact No</label>
-                        <input type="text" name="contactNo" value={formData.contact_no} onChange={handleChange} className="form-control" required />
+                        <input type="text" name="contact_no" value={formData.contact_no} onChange={handleChange} className="form-control" required />
                     </div>
 
                     <div className='col-md-3'>

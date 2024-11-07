@@ -9,6 +9,7 @@ import Branches from '../../../pages/Branch Management/Branches';
 import Dashboard from '../../Dashboard/Dashboard';
 import Stock from '../../../pages/StockManagement/stock';
 import Sales from '../../../pages/SalesManagement/Sales';
+import UserHardDelete from '../../userHardDelete/UserHardDelete';
 
 
 
@@ -109,6 +110,9 @@ export default function Navbar_Slider() {
                 ):
                 activeComponent==='Sales'?(
                     <Sales/>
+                ):
+                activeComponent==='Remove Users'?(
+                    <UserHardDelete/>
                 ):
                 (
                     <div>
