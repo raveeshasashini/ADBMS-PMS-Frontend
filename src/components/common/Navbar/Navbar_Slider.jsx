@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import UserList from '../../UserManagement/UserList';
+import Medicine from '../../../pages/MedicineManagement/Medicine';
 import ReportGenerate from '../../ReportGenerate/ReportGenerate';
 import InventoryList from '../../inventory/InventoryManagement/InventoryList';
 import SupplierList from '../../inventory/InventoryManagement/SupplierList';
@@ -95,8 +96,10 @@ export default function Navbar_Slider() {
 
                 activeComponent === 'Report Generate' ? (
                     <ReportGenerate/> // Display Reports Tab component when "Report Generate" is active
-                )
-                :
+                ) :
+                activeComponent === 'Medicine' ? (
+                    <Medicine/> // Display Reports Tab component when "Medicine" is active
+                ) :
                 activeComponent==='Inventory'?(
                     <InventoryList/>
                 )

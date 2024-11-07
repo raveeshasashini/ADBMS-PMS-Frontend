@@ -197,7 +197,11 @@ export default function SupplierList() {
                                             <button
                                                 type="button"
                                                 className="btn btn-primary btn-sm"
-                                                onClick={() => handleEdit(supplier)}
+                                                
+                                                onClick={() => {
+                                                    console.log("Supplier in edit:", supplier);  // Log the supplier object
+                                                    handleEdit(supplier);
+                                                }}
                                             >
                                                 Edit
                                             </button>
