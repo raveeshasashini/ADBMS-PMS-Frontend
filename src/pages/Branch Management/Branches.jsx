@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import './Branches.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Branches() {
+  
+  const navigate = useNavigate();
 
   const [branchList, setBranchList] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [managerList, setManagerList] = useState([]);
+  
+  const [loading, setLoading] = useState(false);
 
   // states for creating a branch
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -62,6 +67,7 @@ export default function Branches() {
   };
 
   const getAllBranches = async () => {
+    setLoading(true);
     try {
       const response = await axios.get('http://localhost:8080/api/branchManagement/getAllBranches');
       setBranchList(response.data);
@@ -69,10 +75,12 @@ export default function Branches() {
     } catch (err) {
       console.log(err);
     }
+    setLoading(false);
   };
 
 
   const getAllManagers = async () => {
+    setLoading(true);
     try {
       const response = await axios.get('http://localhost:8080/api/branchManagement/getAllManagers');
       setManagerList(response.data);
@@ -80,6 +88,7 @@ export default function Branches() {
     } catch (err) {
       console.log(err);
     }
+    setLoading(false);
   };
 
   // functions for Create Branch modal
@@ -94,6 +103,7 @@ export default function Branches() {
 
 
   const handleSaveNewBranch = async () => {
+    setLoading(true);
     try {
       await axios.post('http://localhost:8080/api/branchManagement/procedure_insert_branch', newBranch);
       alert("New branch created successfully!");
@@ -102,12 +112,43 @@ export default function Branches() {
       console.log(err);
     }
     closeCreateModal();
+    setLoading(false);
   };
 
+  const [user, setUser] = useState({});   //Use state to store user data
+  const storedData = localStorage.getItem('user');    //Get user data from local storage
+
   useEffect(() => {
-    getAllBranches();
-    getAllManagers();
-  }, []);
+
+    if(storedData){   //Check if user is logged in
+        setUser(JSON.parse(storedData));      //Set user data
+        
+        // if(JSON.parse(storedData).role != "ar"){     //Check if user is not a valid type one
+        //     localStorage.removeItem('user');        //Remove user data and re direct to login page
+        // }
+        console.log(JSON.parse(storedData));
+
+        if(JSON.parse(storedData).role_id != 1){
+          //clear local storage
+          localStorage.removeItem('user');
+          navigate('/login');       //Redirect to unauthorized
+        }
+        
+    }else{                          //If user is not logged in
+    navigate('/login');       //Redirect to login page
+    }
+
+}, []);
+
+
+
+  useEffect(() => {
+    if (user && user.role_id ==1) {
+      getAllBranches();
+      getAllManagers();
+    }
+    
+  }, [user]);
 
   return (
     <div className="app-container">
@@ -136,7 +177,12 @@ export default function Branches() {
               </thead>
               <tbody>
                 {
-                
+                  loading ? (
+                    <tr>
+                      <td colSpan="7" style={{ textAlign: 'center' }}>Data loading...
+                      </td>
+                    </tr>
+                  ) :
                   branchList.length > 0 ? (
                     branchList.map((branch) => (
                       <tr key={branch.branch_id}>
