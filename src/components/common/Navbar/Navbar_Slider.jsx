@@ -6,6 +6,7 @@ import InventoryList from '../../inventory/InventoryManagement/InventoryList';
 import SupplierList from '../../inventory/InventoryManagement/SupplierList';
 import Branches from '../../../pages/Branch Management/Branches';
 import Dashboard from '../../Dashboard/Dashboard';
+import Sales from '../../../pages/SalesManagement/Sales';
 
 
 
@@ -37,7 +38,7 @@ export default function Navbar_Slider() {
                     />
                     <p className="mt-2">Hi, Lakindu</p>
                 </div>
-                {['Dashboard','Branch Manage', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory', 'User Manage', 'Purches Manage','Report Generate'].map((item, index) => (
+                {['Dashboard','Branch Manage', 'RCO Manage', 'RCO Payment', 'Sales', 'Email', 'Inventory', 'User Manage', 'Purches Manage','Report Generate'].map((item, index) => (
                     <a 
                     key={index} 
                     className="nav-link text-white my-2 p-2 rounded border-danger" 
@@ -103,6 +104,9 @@ export default function Navbar_Slider() {
                 :
                 activeComponent==='Supplier Manage'?(
                     <SupplierList/>
+                ):
+                activeComponent==='Sales'?(
+                    <Sales/>
                 ):
                 (
                     <div>
