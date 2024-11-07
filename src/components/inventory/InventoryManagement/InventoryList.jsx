@@ -67,12 +67,19 @@ export default function InventoryList() {
     };
 
     const handleInventorySubmission = () => {
+        // Check if any field is empty
+        const { medicineId, supplierId, quantity, price, receivedDate, expiryDate } = formData;
+        if (!medicineId || !supplierId || !quantity || !price || !receivedDate || !expiryDate) {
+            alert("All fields are required!");
+            return; 
+        }
+    
         console.log("Form Data being sent:", formData);
         const url = updateMode
             ? `http://localhost:8080/api/v1/updateinventory/${updateId}`
             : "http://localhost:8080/api/v1/addinventory";
         const method = updateMode ? "PUT" : "POST";
-
+    
         fetch(url, {
             method: method,
             headers: {
@@ -86,10 +93,14 @@ export default function InventoryList() {
                 setUpdateMode(false);
                 setUpdateId(null);
                 fetchInventoryData();
+                alert(updateMode ? "Inventory updated successfully!" : "Inventory added successfully!");
             })
-            .catch((error) => console.error("Error saving inventory data:", error));
+            .catch((error) => {
+                console.error("Error saving inventory data:", error);
+                alert("There was an error while saving the inventory data.");
+            });
     };
-
+    
     const handleClearForm = () => {
         setFormData({
             medicineId: '',
@@ -175,9 +186,10 @@ export default function InventoryList() {
                         <label className="form-label">Medicine Id</label>
                         <select
                             name="medicineId"
+                            style={{ maxHeight: "150px", overflowY: "auto" }}
                             value={formData.medicineId}
                             onChange={handleInputChange}
-                            className="form-control"
+                            className="form-select" 
                         >
                             <option value="">Select Medicine</option>
                             {medicines.map((medicine) => (
@@ -189,7 +201,7 @@ export default function InventoryList() {
                     </div>
                     <div className="col-md-3">
                         <label className="form-label">Supplier Id</label>
-                        <select name="supplierId" value={formData.supplierId} onChange={handleInputChange} className="form-control">
+                        <select name="supplierId" value={formData.supplierId} onChange={handleInputChange} className="form-select">
                             <option value="">Select Supplier</option>
                             {suppliers.map((supplier) => (
                                 <option key={supplier.supplierId} value={supplier.supplierId}>

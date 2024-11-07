@@ -11,13 +11,13 @@ export default function SupplierList() {
     });
     const [suppliers, setSuppliers] = useState([]);
     const [filteredSuppliers, setFilteredSuppliers] = useState([]);
-    const [searchTerm, setSearchTerm] = useState(""); 
+    const [searchTerm, setSearchTerm] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [editingSupplierId, setEditingSupplierId] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [formError, setFormError] = useState("");
 
-    // Fetch suppliers 
     useEffect(() => {
         fetchSuppliers();
     }, []);
@@ -26,9 +26,8 @@ export default function SupplierList() {
         setLoading(true);
         try {
             const response = await axios.get("http://localhost:8080/api/v1/getsuppliers");
-            console.log("Suppliers fetched:", response.data);
             setSuppliers(response.data);
-            setFilteredSuppliers(response.data); 
+            setFilteredSuppliers(response.data);
         } catch (error) {
             setError("Error fetching suppliers");
         } finally {
@@ -36,11 +35,9 @@ export default function SupplierList() {
         }
     };
 
-    // Search handler
     const handleSearchChange = (e) => {
         const value = e.target.value;
         setSearchTerm(value);
-
         const filtered = suppliers.filter((supplier) =>
             supplier.supplierName.toLowerCase().includes(value.toLowerCase())
         );
@@ -57,44 +54,74 @@ export default function SupplierList() {
         });
         setIsEditing(false);
         setEditingSupplierId(null);
-        setSearchTerm(""); 
-        setFilteredSuppliers(suppliers); 
+        setSearchTerm("");
+        setFilteredSuppliers(suppliers);
+        setFormError("");
     };
+
+
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value
-        }));
-    };
 
+        if (name === "contactNumber") {
+            // Ensure "+94" prefix is always there and allow only numbers after it
+            if (!value.startsWith("+94")) {
+                setFormData((prevData) => ({
+                    ...prevData,
+                    [name]: "+94"
+                }));
+            } else {
+                // Allow only numbers after "+94"
+                setFormData((prevData) => ({
+                    ...prevData,
+                    [name]: value.replace(/[^0-9+]/g, "").slice(0, 12)
+                }));
+            }
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: value
+            }));
+        }
+    };
     const handleAddOrUpdateSupplier = async () => {
+
+        if (Object.values(formData).some((field) => field.trim() === "")) {
+            setFormError("All fields are required!");
+            return;
+        }
+        // Ensure the contact number is in the correct format with "+94" and 9 digits
+        const formattedContactNumber = formData.contactNumber.startsWith("+94")
+            ? formData.contactNumber
+            : `+94${formData.contactNumber.replace(/[^0-9]/g, "")}`;
+        setFormError("");
         try {
             if (isEditing && editingSupplierId !== null) {
-                // Update existing supplier
                 await axios.put(`http://localhost:8080/api/v1/updatesupplier/${editingSupplierId}`, {
                     supplierName: formData.supplierName,
                     saleRepName: formData.salesRepresentative,
                     address: formData.address,
-                    phoneNumber: formData.contactNumber,
+                    phoneNumber: formattedContactNumber,
                     email: formData.email
                 });
-                console.log("Supplier updated");
+                alert("Supplier updated successfully!");
             } else {
-                // Add new supplier
                 await axios.post("http://localhost:8080/api/v1/addsupplier", {
                     supplierName: formData.supplierName,
                     saleRepName: formData.salesRepresentative,
                     address: formData.address,
-                    phoneNumber: formData.contactNumber,
+                    phoneNumber: formattedContactNumber,
                     email: formData.email
                 });
-                console.log("Supplier added");
+                alert("Supplier added successfully!");
             }
             handleClearForm();
             fetchSuppliers();
         } catch (error) {
+            const errorMessage = error.response?.data?.message || "Error saving supplier data!";
+            alert(errorMessage);
             console.error("Error saving supplier data:", error);
         }
     };
@@ -104,14 +131,9 @@ export default function SupplierList() {
             console.error("No supplier ID provided!");
             return;
         }
-        console.log("Editing supplier with ID:", supplier.supplierId);
-    
-        setLoading(true); 
+        setLoading(true);
         try {
-            
             const response = await axios.get(`http://localhost:8080/api/v1/getSupplierById/${supplier.supplierId}`);
-            
-            
             setFormData({
                 supplierName: response.data.supplierName,
                 salesRepresentative: response.data.saleRepName,
@@ -119,17 +141,14 @@ export default function SupplierList() {
                 contactNumber: response.data.phoneNumber,
                 email: response.data.email
             });
-            
-            setIsEditing(true); 
-            setEditingSupplierId(supplier.supplierId); 
+            setIsEditing(true);
+            setEditingSupplierId(supplier.supplierId);
         } catch (error) {
-            console.error("Error fetching supplier data:", error);
             setError("Error fetching supplier data");
         } finally {
-            setLoading(false); 
+            setLoading(false);
         }
     };
-    
 
     return (
         <>
@@ -139,7 +158,7 @@ export default function SupplierList() {
                     placeholder="Search Supplier Name"
                     value={searchTerm}
                     onChange={handleSearchChange}
-                    style={{maxWidth:'300px',border: "2px solid black", borderRadius: '0.25rem'}}
+                    style={{ maxWidth: '300px', border: "2px solid black", borderRadius: '0.25rem' }}
                 />
             </div>
             <div className='table-container bg-white p-3 rounded shadow-sm mb-4'
@@ -149,11 +168,11 @@ export default function SupplierList() {
                     overflowX: 'auto',
                     maxWidth: '100%',
                 }}>
-                    {loading ? (
-                        <p>Loading data...</p>
-                    ) : error ? (
-                        <p style={{ color: 'red' }}>{error}</p>
-                    ) : (
+                {loading ? (
+                    <p>Loading data...</p>
+                ) : error ? (
+                    <p style={{ color: 'red' }}>{error}</p>
+                ) : (
                     <table className='table' style={{ minWidth: '800px' }}>
                         <thead>
                             <tr>
@@ -187,19 +206,18 @@ export default function SupplierList() {
                                                 Edit
                                             </button>
                                         </td>
-                                        <td>
-                                           
-                                        </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="6">No suppliers found</td>
+                                    <td colSpan="6" style={{ color: 'red', textAlign: 'center' }}>
+                                        No suppliers found
+                                    </td>
                                 </tr>
                             )}
                         </tbody>
                     </table>
-                    )}
+                )}
             </div>
 
             <div className="bg-white p-3 rounded shadow mb-4">
@@ -271,6 +289,11 @@ export default function SupplierList() {
                         </button>
                     </div>
                 </form>
+                {formError && (
+                    <div className="alert alert-danger mt-3">
+                        {formError}
+                    </div>
+                )}
             </div>
         </>
     );
