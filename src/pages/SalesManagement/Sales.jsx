@@ -24,12 +24,6 @@ export default function Sales() {
     medicine_id:""
   });
 
-//   const [billRecord, setBillRecord] = useState({
-//     quantity: "",
-//     sold_item_unit_price:"",
-//     bill_no:"",
-//     medicine_id:""
-//   });
 
 
   // Handler for adding items to the cart
@@ -65,8 +59,6 @@ export default function Sales() {
       return;
     }
   
-    
-  
     try {
       // Send a POST request to the API to finalize the transaction
       const response = await axios.post(`http://localhost:8080/api/salesManagement/pay/${user.branch_id}`);
@@ -94,6 +86,16 @@ export default function Sales() {
       alert("An error occurred during the payment process.");
     }
   };
+
+
+  // Handler for removing items from the cart
+  const handleRemoveFromCart = (index) => {
+    const itemToRemove = cart[index];
+    const newCart = cart.filter((_, i) => i !== index);
+    
+    setCart(newCart);
+    setTotal(total - itemToRemove.price * itemToRemove.quantity);
+};
 
 
   //Get stock List
@@ -239,16 +241,20 @@ export default function Sales() {
                 <th>Name</th>
                 <th>Quantity</th>
                 <th>Price</th>
+                <th></th>
                 </tr>
             </thead>
             <tbody>
                 {cart.map((item, index) => (
                     <tr key={index}>
-                    <td>{item.id}</td>
-                    <td>{item.name}</td>
-                    <td>{item.quantity}</td>
-                    <td>{item.price}</td>
-                </tr>
+                        <td>{item.id}</td>
+                        <td>{item.name}</td>
+                        <td>{item.quantity}</td>
+                        <td>{item.price}</td>
+                        <td>
+                            <button onClick={() => handleRemoveFromCart(index)}>Remove</button>
+                        </td>
+                    </tr>
                 ))}
             </tbody>
             </table>

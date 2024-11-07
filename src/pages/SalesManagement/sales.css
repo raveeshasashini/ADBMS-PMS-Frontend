@@ -170,3 +170,24 @@
     border-radius: 5px;
   }
   
+
+  .cart-table button {
+    background-color: #e74c3c; /* Red background */
+    color: #fff; /* White text color */
+    border: none;
+    border-radius: 4px; /* Rounded corners */
+    padding: 4px 8px; /* Small padding */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition */
+    font-size: 12px; /* Smaller font size */
+  }
+  
+  .cart-table button:hover {
+    background-color: #c0392b; /* Darker red on hover */
+  }
+  
+  .cart-table button:focus {
+    outline: none; /* Remove outline */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Subtle shadow on focus */
+  }
+  
