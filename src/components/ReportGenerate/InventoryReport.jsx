@@ -8,8 +8,6 @@ export default function InventoryReport() {
 
   
 
-  const [user, setUser] = useState(null);
-
 
 
   useEffect(() => {
