@@ -1,0 +1,74 @@
+.stock-table {
+    width: 100%;
+    margin: 10px 15px auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .stock-table h3 {
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .add-stock {
+    background-color: #0557d3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 5px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    float: right;
+    border-radius: 4px;
+  }
+  
+  .add-stock:hover {
+    background-color: #0056b3;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  table, th, td {
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  thead th {
+    background-color: #2c1c60;
+    color: white;
+    padding: 10px;
+  }
+  
+  tbody td {
+    padding: 10px;
+  }
+  
+  .update-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .update-btn:hover {
+    background-color: #218838;
+  }
+  
+  .delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c82333;
+  }
