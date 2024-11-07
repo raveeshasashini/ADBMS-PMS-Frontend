@@ -201,7 +201,7 @@ export default function InventoryList() {
                     </div>
                     <div className="col-md-3">
                         <label className="form-label">Supplier Id</label>
-                        <select name="supplierId" value={formData.supplierId} onChange={handleInputChange} className="form-control">
+                        <select name="supplierId" value={formData.supplierId} onChange={handleInputChange} className="form-select">
                             <option value="">Select Supplier</option>
                             {suppliers.map((supplier) => (
                                 <option key={supplier.supplierId} value={supplier.supplierId}>
