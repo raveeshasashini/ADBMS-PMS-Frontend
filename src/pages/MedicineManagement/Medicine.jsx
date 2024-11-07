@@ -248,7 +248,7 @@ export default function Medicine() {
 
             <label className="highlightedLabel">Dose</label>
             <input 
-              type="text" 
+              type="number" 
               className="modalInput"
               value={formData.dose}
               onChange={(e) => setFormData({ ...formData, dose: e.target.value })}

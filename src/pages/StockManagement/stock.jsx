@@ -3,15 +3,16 @@ import './stock.css';
 
 function Stock() {
   const [stockData, setStockData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [medicineId, setMedicineId] = useState('');
+  const [newPrice, setNewPrice] = useState('');
 
   useEffect(() => {
-    // Parse the stored JSON object to get branch_id
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (user && user.branch_id) {
       const branchId = user.branch_id;
       console.log('Branch ID:', branchId);  
-      // Fetch data from the API using the branchId
       fetch(`http://localhost:8080/api/stock/getstocksinbranch/${branchId}`)
         .then(response => response.json())
         .then(data => setStockData(data))
@@ -21,11 +22,28 @@ function Stock() {
     }
   }, []);
 
+  const handleChangePriceClick = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleUpdatePrice = () => {
+    // Implement API call here to update the price
+    console.log('Updating price for Medicine ID:', medicineId, 'New Price:', newPrice);
+    // Reset the input fields and close the modal
+    setMedicineId('');
+    setNewPrice('');
+    setShowModal(false);
+  };
+
   return (
     <div className="stock-table">
       <h3>All Stock Details</h3>
       <button className="add-stock">Remove Stock</button>
-      <button className="add-stock">Change Sale Price</button>
+      <button className="add-stock" onClick={handleChangePriceClick}>Change Sale Price</button>
       <table>
         <thead>
           <tr>
@@ -34,7 +52,7 @@ function Stock() {
             <th>Unit Type</th>
             <th>Dose</th>
             <th>Stock Quantity</th>
-            <th>Unit Price</th>
+            <th>Unit Sale Price</th>
           </tr>
         </thead>
         <tbody>
@@ -50,6 +68,33 @@ function Stock() {
           ))}
         </tbody>
       </table>
+
+      {/* Modal for updating sale price */}
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Change Sale Price</h3>
+            <label>
+              Medicine ID:
+              <input
+                type="text"
+                value={medicineId}
+                onChange={(e) => setMedicineId(e.target.value)}
+              />
+            </label>
+            <label>
+              New Price:
+              <input
+                type="text"
+                value={newPrice}
+                onChange={(e) => setNewPrice(e.target.value)}
+              />
+            </label>
+            <button onClick={handleUpdatePrice}>Update Price</button>
+            <button onClick={handleCloseModal}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
