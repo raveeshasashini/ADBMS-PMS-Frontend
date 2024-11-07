@@ -47,6 +47,10 @@
     border-collapse: collapse;
     margin-bottom: 5px;
   }
+
+  .inventory-table :hover, .cart-table :hover {
+    cursor: pointer;
+  }
   
   .inventory-table th, .inventory-table td,
   .cart-table th, .cart-table td {

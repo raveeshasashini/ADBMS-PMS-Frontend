@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './sales.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Sales() {
+    const navigate = useNavigate();
+
   const [cart, setCart] = useState([]);
+  const [stock, setStock] = useState([]);
   const [total, setTotal] = useState(0);
   const [settled, setSettled] = useState(0);
   const [change, setChange] = useState(0);
+
 
   // Item inputs
   const [item, setItem] = useState({
@@ -28,44 +34,103 @@ export default function Sales() {
     setItem({ id: '', name: '', price: 0, quantity: 1 });
   };
 
+
+  //Get stock List
+    const getStockList = async () => {
+        try {
+            const result = await axios.get(`http://localhost:8080/api/salesManagement/sales_stock_view/${user.branch_id}`);
+            console.log(result.data);
+            setStock(result.data);
+
+        } catch (err) {
+            console.error(err.message);
+        }
+    }
+
+    const [user, setUser] = useState({});   //Use state to store user data
+    const storedData = localStorage.getItem('user');    //Get user data from local storage
+
+
+    useEffect(() => {
+
+        if(storedData){   //Check if user is logged in
+            setUser(JSON.parse(storedData));      //Set user data
+            
+            // if(JSON.parse(storedData).role != "ar"){     //Check if user is not a valid type one
+            //     localStorage.removeItem('user');        //Remove user data and re direct to login page
+            // }
+            console.log(JSON.parse(storedData));
+            
+        }else{                          //If user is not logged in
+        navigate('/login');       //Redirect to login page
+        }
+
+    }, []);
+
+    useEffect(() => {
+        if (user && user.branch_id) {
+            getStockList(user.branch_id);
+        }
+    }, [user]);
+
   return (
     <div className="sales-container">
       {/* Left Column for Inventory Table and Item Input Form */}
       <div className="left-column">
-        <h4>Inventory</h4>
+        <h4>Stocks</h4>
         <div className="inventory-table-container">
             <table className="inventory-table">
             <thead>
                 <tr>
-                <th>ID</th>
+                <th>Medicine ID</th>
                 <th>Name</th>
+                <th>Dose</th>
                 <th>Stock</th>
-                <th>Price</th>
+                <th>Unit Price</th>
                 </tr>
             </thead>
             <tbody>
-                {/* Inventory data would be mapped here */}
+
+                {stock.map((item, index) => (
+                    <tr key={index} onClick={() => {
+                        setItem({
+                            id: item.medicine_id,
+                            name: item.medicine_name,
+                            price: item.unit_price,
+                            quantity: 1,
+                        });
+                    }}>
+                    <td>{item.medicine_id}</td>
+                    <td>{item.medicine_name}</td>
+                    <td>{item.unit_type+"-" +item.dose}</td>
+                    <td>{item.stock_quantity}</td>
+                    <td>{item.unit_price}</td>
+                </tr>
+                ))}
+                
+
             </tbody>
             </table>
         </div>
 
         {/* New Item Input Form below the Inventory Table */}
         <div className="item-input-form">
+            
           <input 
-            type="text" 
+            type="number"  disabled
             placeholder="ID" 
             value={item.id} 
             onChange={(e) => setItem({ ...item, id: e.target.value })} 
           />
           <input 
             type="text" 
-            placeholder="Name" 
+            placeholder="Name" disabled
             value={item.name} 
             onChange={(e) => setItem({ ...item, name: e.target.value })} 
           />
           <input 
             type="number" 
-            placeholder="Price" 
+            placeholder="Price (Rs)"  disabled
             value={item.price} 
             onChange={(e) => setItem({ ...item, price: parseFloat(e.target.value) || 0 })} 
           />
