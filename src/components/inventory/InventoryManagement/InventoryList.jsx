@@ -186,9 +186,10 @@ export default function InventoryList() {
                         <label className="form-label">Medicine Id</label>
                         <select
                             name="medicineId"
+                            style={{ maxHeight: "150px", overflowY: "auto" }}
                             value={formData.medicineId}
                             onChange={handleInputChange}
-                            className="form-control"
+                            className="form-select" 
                         >
                             <option value="">Select Medicine</option>
                             {medicines.map((medicine) => (
