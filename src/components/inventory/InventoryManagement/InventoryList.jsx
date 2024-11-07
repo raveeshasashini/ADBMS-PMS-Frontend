@@ -60,20 +60,36 @@ export default function InventoryList() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+        if (name === 'medicineId') {
+            // Find the selected medicine
+            const selectedMedicine = medicines.find(medicine => medicine.medicine_id === parseInt(value));
+
+           
+            const supplierId = selectedMedicine ? selectedMedicine.supplier_details.split(" - ")[0] : '';
+
+            
+            setFormData((prevData) => ({
+                ...prevData,
+                medicineId: value,
+                supplierId: supplierId
+            }));
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: value
+            }));
+        }
     };
+
 
     const handleInventorySubmission = () => {
         // Check if any field is empty
         const { medicineId, supplierId, quantity, price, receivedDate, expiryDate } = formData;
         if (!medicineId || !supplierId || !quantity || !price || !receivedDate || !expiryDate) {
             alert("All fields are required!");
-            return; 
+            return;
         }
-    
+
         console.log("Form Data being sent:", formData);
         const url = updateMode
             ? `http://localhost:8080/api/v1/updateinventory/${updateId}`
@@ -116,12 +132,12 @@ export default function InventoryList() {
     const handleUpdateClick = (item) => {
         setUpdateMode(true);
         setUpdateId(item.inventoryId);
-        
-        
+
+
         fetch(`http://localhost:8080/api/v1/getInventoryById/${item.inventoryId}`)
             .then((response) => response.json())
             .then((data) => {
-                
+
                 setFormData({
                     medicineId: data.medicineId,
                     supplierId: data.supplierId,
@@ -129,7 +145,7 @@ export default function InventoryList() {
                     price: data.price,
                     receivedDate: data.receivedDate,
                     expiryDate: data.expiryDate,
-                    branchId: data.branchId || formData.branchId,  
+                    branchId: data.branchId || formData.branchId,
                 });
             })
             .catch((error) => console.error("Error fetching inventory data:", error));
@@ -189,7 +205,7 @@ export default function InventoryList() {
                             style={{ maxHeight: "150px", overflowY: "auto" }}
                             value={formData.medicineId}
                             onChange={handleInputChange}
-                            className="form-select" 
+                            className="form-select"
                         >
                             <option value="">Select Medicine</option>
                             {medicines.map((medicine) => (
@@ -201,7 +217,21 @@ export default function InventoryList() {
                     </div>
                     <div className="col-md-3">
                         <label className="form-label">Supplier Id</label>
-                        <select name="supplierId" value={formData.supplierId} onChange={handleInputChange} className="form-select">
+                        {/* <input
+                            type="text"
+                            name="supplierId"
+                            value={formData.supplierId}
+                            onChange={handleInputChange}
+                            className="form-control"
+                            readOnly
+                        /> */}
+                        <select
+                            name="supplierId"
+                            value={formData.supplierId}
+                            onChange={handleInputChange}
+                            className="form-control"
+                            disabled
+                        >
                             <option value="">Select Supplier</option>
                             {suppliers.map((supplier) => (
                                 <option key={supplier.supplierId} value={supplier.supplierId}>
