@@ -6,18 +6,9 @@ export default function InventoryReport() {
   const [error, setError] = useState(null);
   const [branchId, setBranchId] = useState(null); // Initialize as null until user data is available
 
-  const [user, setUser] = useState(null);
+  
 
 
-//     const storedData = localStorage.getItem('user');
-//     useEffect(() => {
-//         if(storedData){
-//             setUser(JSON.parse(storedData));
-//             setBranchId(user.branch_id);
-//         }else{
-//             setUser(null);
-//         }
-//     }, []);
 
   useEffect(() => {
     const storedData = localStorage.getItem('user');
