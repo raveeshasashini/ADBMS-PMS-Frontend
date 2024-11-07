@@ -18,7 +18,7 @@ export default function Sales() {
     id: '',
     name: '',
     price: 0,
-    quantity: 1,
+    quantity: "",
   });
 
   // Handler for adding items to the cart
@@ -26,12 +26,12 @@ export default function Sales() {
     const newCart = [...cart, item];
     setCart(newCart);
     setTotal(total + item.price * item.quantity);
-    setItem({ id: '', name: '', price: 0, quantity: 1 });
+    setItem({ id: '', name: '', price: 0, quantity: "" });
   };
 
   // Handler for clearing item inputs
   const handleClearItem = () => {
-    setItem({ id: '', name: '', price: 0, quantity: 1 });
+    setItem({ id: '', name: '', price: 0, quantity: "" });
   };
 
 
@@ -86,7 +86,7 @@ export default function Sales() {
                 <th>Name</th>
                 <th>Dose</th>
                 <th>Stock</th>
-                <th>Unit Price</th>
+                {/* <th>Unit Price</th> */}
                 </tr>
             </thead>
             <tbody>
@@ -97,14 +97,14 @@ export default function Sales() {
                             id: item.medicine_id,
                             name: item.medicine_name,
                             price: item.unit_price,
-                            quantity: 1,
+                            quantity: "",
                         });
                     }}>
                     <td>{item.medicine_id}</td>
                     <td>{item.medicine_name}</td>
                     <td>{item.unit_type+"-" +item.dose}</td>
                     <td>{item.stock_quantity}</td>
-                    <td>{item.unit_price}</td>
+                    {/* <td>{item.unit_price}</td> */}
                 </tr>
                 ))}
                 
@@ -115,34 +115,53 @@ export default function Sales() {
 
         {/* New Item Input Form below the Inventory Table */}
         <div className="item-input-form">
+            <div className="form-group">
+                <label>ID:</label>
+                <input
+                type="number"
+                disabled
+                placeholder="ID"
+                value={item.id}
+                onChange={(e) => setItem({ ...item, id: e.target.value })}
+                />
+            </div>
             
-          <input 
-            type="number"  disabled
-            placeholder="ID" 
-            value={item.id} 
-            onChange={(e) => setItem({ ...item, id: e.target.value })} 
-          />
-          <input 
-            type="text" 
-            placeholder="Name" disabled
-            value={item.name} 
-            onChange={(e) => setItem({ ...item, name: e.target.value })} 
-          />
-          <input 
-            type="number" 
-            placeholder="Price (Rs)"  disabled
-            value={item.price} 
-            onChange={(e) => setItem({ ...item, price: parseFloat(e.target.value) || 0 })} 
-          />
-          <input 
-            type="number" 
-            placeholder="Quantity" 
-            value={item.quantity} 
-            onChange={(e) => setItem({ ...item, quantity: parseInt(e.target.value) || 1 })} 
-          />
-          <button onClick={handleAddToCart}>Add</button>
-          <button onClick={handleClearItem}>Clear</button>
+            <div className="form-group">
+                <label>Name:</label>
+                <input
+                type="text"
+                placeholder="Name"
+                disabled
+                value={item.name}
+                onChange={(e) => setItem({ ...item, name: e.target.value })}
+                />
+            </div>
+            
+            <div className="form-group">
+                <label>Price (Rs):</label>
+                <input
+                type="number"
+                placeholder="Price (Rs)"
+                disabled
+                value={item.price}
+                onChange={(e) => setItem({ ...item, price: parseFloat(e.target.value) || 0 })}
+                />
+            </div>
+            
+            <div className="form-group">
+                <label>Quantity:</label>
+                <input
+                type="number"
+                placeholder="Quantity"
+                value={item.quantity}
+                onChange={(e) => setItem({ ...item, quantity: parseInt(e.target.value) || 1 })}
+                />
+            </div>
+
+            <button onClick={handleAddToCart}>Add</button>
+            <button onClick={handleClearItem}>Clear</button>
         </div>
+
       </div>
 
       {/* Right Column for Cart Table and Transaction Summary */}

@@ -2,7 +2,7 @@
     display: flex;
     gap: 10px;
     padding: 5px;
-    height: calc(100vh - 40px); /* Adjusts for padding */
+    height: calc(110vh - 40px); /* Adjusts for padding */
     box-sizing: border-box;
   }
   
@@ -24,7 +24,7 @@
   }
 
   .inventory-table-container {
-    height: 350px; /* Set a fixed height for the inventory table */
+    height: 360px; /* Set a fixed height for the inventory table */
     overflow-y: auto; /* Enable vertical scrolling */
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -32,7 +32,7 @@
   }
 
   .cart-table-container {
-    height: 320px; /* Set a fixed height for the cart table */
+    height: 380px; /* Set a fixed height for the cart table */
     overflow-y: auto; /* Enable vertical scrolling */
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -71,14 +71,14 @@
   /* Item input form styling */
   .item-input-form {
     display: flex;
-    gap: 10px;
+    gap: 5px;
     margin-top: 10px; /* Adds spacing from inventory table */
     flex-wrap: wrap;
     background-color: #ffffff;
-    padding: 10px;
+    padding: 5px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 150px;
+    height: 200px;
     overflow-y: auto;
   }
   
@@ -149,5 +149,24 @@
   
   .transaction-summary button:hover {
     background-color: #52518a;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .item-input-form input {
+    max-height: 30px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
   }
   
