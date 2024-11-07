@@ -10,6 +10,28 @@ function SalesReportAllBranch() {
     const [activeTab,setActiveTab]=useState("Daily");
     const[reportData,setReportData]=useState([]);
 
+    const [profitReport, setProfitReport] = useState({
+        today: '',
+        thisMonth: '',
+        thisYear: ''
+    });
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/api/report/profitReport`)
+            .then(response => response.json())
+            .then(data => {
+                // Assuming the data is in the format: [[profitToday, profitThisMonth, profitThisYear]]
+                const [profitToday, profitThisMonth, profitThisYear] = data[0];
+
+                // Update the state with the API result
+                setProfitReport({
+                    today: profitToday,
+                    thisMonth: profitThisMonth,
+                    thisYear: profitThisYear
+                });
+            })
+            .catch(error => console.error('Error fetching daily data:', error));
+    }, []);
 
     useEffect(()=>
     {
@@ -17,7 +39,11 @@ function SalesReportAllBranch() {
         .then(response=>response.json())
         .then(data=>setReportData(data))
         .catch(error => console.error('Error fetching daily data:', error));
-    })
+
+        
+    },[activeTab])
+
+    
     
 
 
@@ -92,7 +118,7 @@ function SalesReportAllBranch() {
                         </button>
                     </li>
                 </ul>
-                
+                <h3>Total Profit  {activeTab === "Daily" ? profitReport.today : activeTab === "Monthly" ? profitReport.thisMonth : profitReport.thisYear}</h3>
                 {/* Report Table */}
                 <table className="table table-striped mt-4">
                     <thead className="table-light">
@@ -103,19 +129,22 @@ function SalesReportAllBranch() {
                         </tr>
                     </thead>
                     <tbody>
-                        {reportData.length > 0 ? (
-                            reportData.map((item, index) => (
-                                <tr key={index}>
-                                    <td>{item[0]}</td> {/* Branch */}
-                                    <td>{typeof item[1] === 'number' ? `Rs. ${item[1].toFixed(2)}` : item[1]}</td> {/* Total Sales */}
-                                    <td>{typeof item[2] === 'number' ? `Rs. ${item[2].toFixed(2)}` : item[2]}</td> {/* Profit */}
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="3" className="text-center">No data available</td>
+                    {reportData.length > 0 ? (
+                        reportData.map((item, index) => (
+                            <tr key={index}>
+                                <td>{item[0]}</td> {/* Branch */}
+                                <td>{typeof item[1] === 'number' ? `Rs. ${item[1].toFixed(2)}` : item[1]}</td> {/* Total Sales */}
+                                <td>{typeof item[2] === 'number' ? `Rs. ${item[2].toFixed(2)}` : item[2]}</td> {/* Profit */}
                             </tr>
-                        )}
+                        ))
+                        
+                    ) : (
+                        <tr>
+                            <td colSpan="3" className="text-center">No data available</td>
+                        </tr>
+                    )}
+                
+                            
                     </tbody>
                 </table>
             </div>
