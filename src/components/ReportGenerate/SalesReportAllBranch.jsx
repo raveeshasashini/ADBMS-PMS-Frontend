@@ -7,9 +7,17 @@ function SalesReportAllBranch() {
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedMonth, setSelectedMonth] = useState('1');
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+    const [activeTab,setActiveTab]=useState("Daily");
+    const[reportData,setReportData]=useState([]);
 
 
-    
+    useEffect(()=>
+    {
+        fetch(`http://localhost:8080/api/report/getTodaySales?option=${activeTab}`)
+        .then(response=>response.json())
+        .then(data=>setReportData(data))
+        .catch(error => console.error('Error fetching daily data:', error));
+    })
     
 
 
@@ -49,13 +57,73 @@ function SalesReportAllBranch() {
         return date.toISOString().slice(0, 10); // Format as YYYY-MM-DD
     };
     
+    const handleTabChange = (tab) => {
+        setActiveTab(tab);
+    };
 
     return (
         <div style={{ height: "100%" }}>
-            <h1 className="display-5 mb-4">Sales Report</h1>
+            <div className="card p-4 mb-4">
+            <h1 className="display-5 mb-4"> Report</h1>
+            {/* Tabs */}
+            <ul className="nav nav-tabs">
+                    <li className="nav-item">
+                        <button 
+                            className={`nav-link ${activeTab === 'Daily' ? 'active' : ''}`}
+                            onClick={() => handleTabChange('Daily')}
+                        >
+                            Today
+                        </button>
+                    </li>
+                    <li className="nav-item">
+                        <button 
+                            className={`nav-link ${activeTab === 'Monthly' ? 'active' : ''}`}
+                            onClick={() => handleTabChange('Monthly')}
+                        >
+                            This Month
+                        </button>
+                    </li>
+                    <li className="nav-item">
+                        <button 
+                            className={`nav-link ${activeTab === 'Yearly' ? 'active' : ''}`}
+                            onClick={() => handleTabChange('Yearly')}
+                        >
+                            This Year
+                        </button>
+                    </li>
+                </ul>
+                
+                {/* Report Table */}
+                <table className="table table-striped mt-4">
+                    <thead className="table-light">
+                        <tr>
+                            <th>Branch</th>
+                            <th>Total Sales</th>
+                            <th>Profit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {reportData.length > 0 ? (
+                            reportData.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{item[0]}</td> {/* Branch */}
+                                    <td>{typeof item[1] === 'number' ? `Rs. ${item[1].toFixed(2)}` : item[1]}</td> {/* Total Sales */}
+                                    <td>{typeof item[2] === 'number' ? `Rs. ${item[2].toFixed(2)}` : item[2]}</td> {/* Profit */}
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="3" className="text-center">No data available</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+        
+            
             
             <div className="card p-4 mb-4">
-                <h2 className="h4">Generate Report</h2>
+                <h2 className="h4">Generate Sales Report</h2>
                 <div className="d-flex gap-3 mb-3">
                     <div>
                         <label htmlFor="sales-by" className="form-label">Sales By</label>
