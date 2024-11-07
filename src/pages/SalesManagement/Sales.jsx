@@ -7,6 +7,7 @@ export default function Sales() {
     const navigate = useNavigate();
 
   const [cart, setCart] = useState([]);
+  const [billDetails, setBillDetails] = useState([]);
   const [stock, setStock] = useState([]);
   const [total, setTotal] = useState(0);
   const [settled, setSettled] = useState(0);
@@ -19,19 +20,79 @@ export default function Sales() {
     name: '',
     price: 0,
     quantity: "",
+    sold_item_unit_price:"",
+    medicine_id:""
   });
+
+//   const [billRecord, setBillRecord] = useState({
+//     quantity: "",
+//     sold_item_unit_price:"",
+//     bill_no:"",
+//     medicine_id:""
+//   });
+
 
   // Handler for adding items to the cart
   const handleAddToCart = () => {
-    const newCart = [...cart, item];
-    setCart(newCart);
+    if(stock.length != 0){
+        if(item.quantity > stock.find(x => x.medicine_id == item.id).stock_quantity){
+            alert("Not enough stock");
+            return;
+        }else{
+            const newCart = [...cart, item];
+            setCart(newCart);
+        }
+    }
+
+
+    
     setTotal(total + item.price * item.quantity);
-    setItem({ id: '', name: '', price: 0, quantity: "" });
+    setItem({ id: '', name: '', price: 0, quantity: "", sold_item_unit_price:"", medicine_id:"" });
   };
+
+
+
 
   // Handler for clearing item inputs
   const handleClearItem = () => {
-    setItem({ id: '', name: '', price: 0, quantity: "" });
+    setItem({ id: '', name: '', price: 0, quantity: "", sold_item_unit_price:"", medicine_id:"" });
+  };
+
+// funtion for pay button
+  const handlePay = async () => {
+    if (settled < total) {
+      alert("The settled amount is less than the total. Please enter a valid amount.");
+      return;
+    }
+  
+    
+  
+    try {
+      // Send a POST request to the API to finalize the transaction
+      const response = await axios.post(`http://localhost:8080/api/salesManagement/pay/${user.branch_id}`);
+      
+      if (response.status === 200) {
+        alert("Payment successful!");
+        // Clear the cart and reset values
+        setCart([]);
+        setTotal(0);
+        setSettled(0);
+        setChange(0);
+        getStockList(); // Refresh stock list
+
+        try{
+            const response = await axios.post(`http://localhost:8080/api/salesManagement/insertAllSaleDetails`, cart)
+        }catch(err){
+            alert("Could not save sales detils");
+        }
+
+      } else {
+        alert("Payment failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Payment Error:", error);
+      alert("An error occurred during the payment process.");
+    }
   };
 
 
@@ -98,6 +159,8 @@ export default function Sales() {
                             name: item.medicine_name,
                             price: item.unit_price,
                             quantity: "",
+                            sold_item_unit_price:item.unit_price,
+                            medicine_id:item.medicine_id
                         });
                     }}>
                     <td>{item.medicine_id}</td>
@@ -122,7 +185,7 @@ export default function Sales() {
                 disabled
                 placeholder="ID"
                 value={item.id}
-                onChange={(e) => setItem({ ...item, id: e.target.value })}
+                onChange={(e) => setItem({ ...item, id: e.target.value, medicine_id: e.target.value  })}
                 />
             </div>
             
@@ -144,7 +207,7 @@ export default function Sales() {
                 placeholder="Price (Rs)"
                 disabled
                 value={item.price}
-                onChange={(e) => setItem({ ...item, price: parseFloat(e.target.value) || 0 })}
+                onChange={(e) => setItem({ ...item, price: parseFloat(e.target.value) || 0, sold_item_unit_price: e.target.value  })}
                 />
             </div>
             
@@ -197,7 +260,7 @@ export default function Sales() {
           <p>Settled: <input type="number" value={settled} onChange={(e) => setSettled(parseFloat(e.target.value) || 0)} /></p>
           <p>Change: <span>{(settled - total).toFixed(2)}</span></p>
           <button>Remove</button>
-          <button>Pay</button>
+          <button onClick={handlePay}>Pay</button>
         </div>
       </div>
     </div>
