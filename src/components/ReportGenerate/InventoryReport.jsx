@@ -5,7 +5,7 @@ export default function InventoryReport() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [branchId, setBranchId] = useState(null); // Initialize as null until user data is available
-
+  const[user,setUser]=useState(''); 
   
 
 

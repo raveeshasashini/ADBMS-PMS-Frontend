@@ -5,6 +5,7 @@ import InventoryReport from './InventoryReport';
 import { useEffect } from 'react'; // Added useEffect import
 import PurchaseHistoryReport from './PurchaseHistoryReport';
 import ExpiryTracking from './ExpiryTracking';
+import SalesReportAllBranch from './SalesReportAllBranch';
 
 export default function ReportGenerate() {
   const [showReport, setShowReport] = useState('ReportGenerate'); // Initialize showReport state
@@ -77,9 +78,7 @@ export default function ReportGenerate() {
       {
         role_id==1 ? (
 
-          <>
-            
-          </>
+          <SalesReportAllBranch/>
 
         ) : 
         (
