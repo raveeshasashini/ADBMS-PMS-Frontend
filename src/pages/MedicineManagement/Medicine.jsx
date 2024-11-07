@@ -241,14 +241,14 @@ export default function Medicine() {
               onChange={handleUnitTypeChange} 
             >
               <option value=""></option>
-              <option value="tablet">Tablet</option>
-              <option value="capsule">Capsule</option>
-              <option value="syrup">Syrup</option>
+              <option value="Bottle (ml)">Bottle (ml)</option>
+              <option value="Tablet (mg)">Tablet (mg)</option>
+              <option value="Capsule (mg)">Capsule (mg)</option>
             </select>
 
             <label className="highlightedLabel">Dose</label>
             <input 
-              type="text" 
+              type="number" 
               className="modalInput"
               value={formData.dose}
               onChange={(e) => setFormData({ ...formData, dose: e.target.value })}
