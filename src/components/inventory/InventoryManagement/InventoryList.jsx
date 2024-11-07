@@ -95,7 +95,7 @@ export default function InventoryList() {
             ? `http://localhost:8080/api/v1/updateinventory/${updateId}`
             : "http://localhost:8080/api/v1/addinventory";
         const method = updateMode ? "PUT" : "POST";
-
+    
         fetch(url, {
             method: method,
             headers: {
@@ -116,7 +116,7 @@ export default function InventoryList() {
                 alert("There was an error while saving the inventory data.");
             });
     };
-
+    
     const handleClearForm = () => {
         setFormData({
             medicineId: '',
