@@ -32,20 +32,22 @@ export default function Sales() {
     <div className="sales-container">
       {/* Left Column for Inventory Table and Item Input Form */}
       <div className="left-column">
-        <h3>Inventory</h3>
-        <table className="inventory-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Stock</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* Inventory data would be mapped here */}
-          </tbody>
-        </table>
+        <h4>Inventory</h4>
+        <div className="inventory-table-container">
+            <table className="inventory-table">
+            <thead>
+                <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Stock</th>
+                <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {/* Inventory data would be mapped here */}
+            </tbody>
+            </table>
+        </div>
 
         {/* New Item Input Form below the Inventory Table */}
         <div className="item-input-form">
@@ -80,27 +82,30 @@ export default function Sales() {
 
       {/* Right Column for Cart Table and Transaction Summary */}
       <div className="right-column">
-        <h3>Cart</h3>
-        <table className="cart-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Quantity</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cart.map((item, index) => (
-              <tr key={index}>
-                <td>{item.id}</td>
-                <td>{item.name}</td>
-                <td>{item.quantity}</td>
-                <td>{item.price}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <h4>Cart</h4>
+        <div className="cart-table-container">
+
+            <table className="cart-table">
+            <thead>
+                <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {cart.map((item, index) => (
+                    <tr key={index}>
+                    <td>{item.id}</td>
+                    <td>{item.name}</td>
+                    <td>{item.quantity}</td>
+                    <td>{item.price}</td>
+                </tr>
+                ))}
+            </tbody>
+            </table>
+        </div>
 
         {/* Transaction Summary */}
         <div className="transaction-summary">
