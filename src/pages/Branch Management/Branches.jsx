@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './Branches.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Branches() {
+  
+  const navigate = useNavigate();
 
   const [branchList, setBranchList] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -112,10 +115,40 @@ export default function Branches() {
     setLoading(false);
   };
 
+  const [user, setUser] = useState({});   //Use state to store user data
+  const storedData = localStorage.getItem('user');    //Get user data from local storage
+
   useEffect(() => {
-    getAllBranches();
-    getAllManagers();
-  }, []);
+
+    if(storedData){   //Check if user is logged in
+        setUser(JSON.parse(storedData));      //Set user data
+        
+        // if(JSON.parse(storedData).role != "ar"){     //Check if user is not a valid type one
+        //     localStorage.removeItem('user');        //Remove user data and re direct to login page
+        // }
+        console.log(JSON.parse(storedData));
+
+        if(JSON.parse(storedData).role_id != 1){
+          //clear local storage
+          localStorage.removeItem('user');
+          navigate('/login');       //Redirect to unauthorized
+        }
+        
+    }else{                          //If user is not logged in
+    navigate('/login');       //Redirect to login page
+    }
+
+}, []);
+
+
+
+  useEffect(() => {
+    if (user && user.role_id ==1) {
+      getAllBranches();
+      getAllManagers();
+    }
+    
+  }, [user]);
 
   return (
     <div className="app-container">
