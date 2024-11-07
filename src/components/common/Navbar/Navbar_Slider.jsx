@@ -38,7 +38,7 @@ export default function Navbar_Slider() {
                     />
                     <p className="mt-2">Hi, Lakindu</p>
                 </div>
-                {['Dashboard','Branch Manage', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Medicine','Email', 'Inventory', 'User Manage', 'Purches Manage','Report Generate'].map((item, index) => (
+                {['Dashboard','Branch Manage', 'RCO Manage', 'RCO Payment', 'DCO Manage', 'Email', 'Inventory', 'Supplier Manage','User Manage', 'Purches Manage','Report Generate'].map((item, index) => (
                     <a 
                     key={index} 
                     className="nav-link text-white my-2 p-2 rounded border-danger" 
