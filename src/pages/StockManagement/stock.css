@@ -45,6 +45,7 @@ thead th {
 
 tbody td {
   padding: 10px;
+  text-align: right;
 }
 
 .update-btn {

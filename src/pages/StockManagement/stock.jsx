@@ -74,7 +74,6 @@ function Stock() {
   return (
     <div className="stock-table">
       <h3>All Stock Details</h3>
-      <button className="add-stock">Remove Stock</button>
       <button className="add-stock" onClick={handleChangePriceClick}>Change Sale Price</button>
       
       <table>
@@ -96,7 +95,7 @@ function Stock() {
               <td>{stock.unit_type}</td>
               <td>{stock.dose}</td>
               <td>{stock.stock_quantity}</td>
-              <td>{stock.unit_price}</td>
+              <td>{parseFloat(stock.unit_price).toFixed(2)}</td> {/* Formatting as double with 2 decimals */}
             </tr>
           ))}
         </tbody>
