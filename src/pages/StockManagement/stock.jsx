@@ -4,9 +4,10 @@ import './stock.css';
 function Stock() {
   const [stockData, setStockData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [medicineId, setMedicineId] = useState('');
+  const [selectedMedicine, setSelectedMedicine] = useState('');
   const [newPrice, setNewPrice] = useState('');
 
+  // Fetch stock data when the component mounts
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
 
@@ -22,21 +23,52 @@ function Stock() {
     }
   }, []);
 
+  // Open modal to change price
   const handleChangePriceClick = () => {
     setShowModal(true);
   };
 
+  // Close modal and reset fields
   const handleCloseModal = () => {
     setShowModal(false);
+    setSelectedMedicine('');
+    setNewPrice('');
   };
 
+  // Update price and refresh the stock table
   const handleUpdatePrice = () => {
-    // Implement API call here to update the price
-    console.log('Updating price for Medicine ID:', medicineId, 'New Price:', newPrice);
-    // Reset the input fields and close the modal
-    setMedicineId('');
-    setNewPrice('');
-    setShowModal(false);
+    if (!selectedMedicine || !newPrice) {
+      alert('Please select a medicine and enter a new price.');
+      return;
+    }
+
+    console.log('Updating price for Medicine ID:', selectedMedicine, 'New Price:', newPrice);
+
+    // API call to update price using Spring Boot endpoint
+    fetch('http://localhost:8080/api/stock/updatesaleprice?medicineId=' + selectedMedicine + '&newPrice=' + newPrice, {
+      method: 'PUT',
+    })
+    .then(response => response.text()) // Expecting a text response from the backend (the result message)
+    .then(message => {
+      alert(message); // Show success/failure message
+      setSelectedMedicine('');
+      setNewPrice('');
+      setShowModal(false); // Close the modal
+
+      // Refresh stock data after price update
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (user && user.branch_id) {
+        const branchId = user.branch_id;
+        fetch(`http://localhost:8080/api/stock/getstocksinbranch/${branchId}`)
+          .then(response => response.json())
+          .then(data => setStockData(data))
+          .catch(error => console.error('Error fetching updated stock data:', error));
+      }
+    })
+    .catch(error => {
+      console.error('Error updating price:', error);
+      alert('Failed to update price.');
+    });
   };
 
   return (
@@ -44,6 +76,7 @@ function Stock() {
       <h3>All Stock Details</h3>
       <button className="add-stock">Remove Stock</button>
       <button className="add-stock" onClick={handleChangePriceClick}>Change Sale Price</button>
+      
       <table>
         <thead>
           <tr>
@@ -52,7 +85,7 @@ function Stock() {
             <th>Unit Type</th>
             <th>Dose</th>
             <th>Stock Quantity</th>
-            <th>Unit Sale Price</th>
+            <th>Unit Sale Price (RS.)</th>
           </tr>
         </thead>
         <tbody>
@@ -75,17 +108,26 @@ function Stock() {
           <div className="modal-content">
             <h3>Change Sale Price</h3>
             <label>
-              Medicine ID:
-              <input
-                type="text"
-                value={medicineId}
-                onChange={(e) => setMedicineId(e.target.value)}
-              />
+              Select Medicine:
+              <select
+                value={selectedMedicine}
+                onChange={(e) => setSelectedMedicine(e.target.value)}
+              >
+                <option value="">Select a medicine</option>
+                {stockData.map(stock => (
+                  <option
+                    key={stock.stock_id}
+                    value={stock.stock_id}
+                  >
+                    {stock.stock_id} - {stock.medicine_name}
+                  </option>
+                ))}
+              </select>
             </label>
             <label>
               New Price:
               <input
-                type="text"
+                type="number"
                 value={newPrice}
                 onChange={(e) => setNewPrice(e.target.value)}
               />
