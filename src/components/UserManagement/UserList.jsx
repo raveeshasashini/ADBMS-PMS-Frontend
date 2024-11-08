@@ -230,7 +230,8 @@ export default function UserList() {
                             <option value="" disabled>Select Role</option>
                             <option value="1">Admin</option>
                             <option value="2">Manager</option>
-                            <option value="3">Staff</option>
+                            <option value="3">Cashier</option>
+                            <option value="4">Staff</option>
                         </select>
                     </div>
 
@@ -243,9 +244,18 @@ export default function UserList() {
                         <label className="form-label">Branch</label>
                         <select name="branch_id" value={formData.branch_id} onChange={handleChange} className='form-select' required>
                             <option value="" disabled>Select Branch</option>
-                            <option value="1">Gampaha</option>
-                            <option value="2">Matara</option>
-                            <option value="3">Galle</option>
+                            <option value="1">Matara Main road Branch</option>
+                            <option value="2">Galle new Branch</option>
+                            <option value="3">East Side Branch</option>
+                            <option value="4">North Branch</option>
+                            <option value="5">South Branch</option>
+                            <option value="6">Main City Branch</option>
+                            <option value="7">Hilltop Branch</option>
+                            <option value="8">Lakeside Branch</option>
+                            <option value="9">Suburban Branch</option>
+                            <option value="10">Downtown Branch</option>
+                            <option value="14">Rathnapura Main Branch</option>
+                            <option value="15">Kaburupitiya</option>
                         </select>
                     </div>
 
