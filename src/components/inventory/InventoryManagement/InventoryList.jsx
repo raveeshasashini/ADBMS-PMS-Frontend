@@ -210,7 +210,7 @@ export default function InventoryList() {
                             <option value="">Select Medicine</option>
                             {medicines.map((medicine) => (
                                 <option key={medicine.medicine_id} value={medicine.medicine_id}>
-                                    {medicine.medicine_name} (ID: {medicine.medicine_id})
+                                    {medicine.medicine_name} - {medicine.medicine_id}
                                 </option>
                             ))}
                         </select>
@@ -230,12 +230,12 @@ export default function InventoryList() {
                             value={formData.supplierId}
                             onChange={handleInputChange}
                             className="form-control"
-                            disabled
+                            
                         >
-                            <option value="">Select Supplier</option>
+                            <option value=""></option>
                             {suppliers.map((supplier) => (
                                 <option key={supplier.supplierId} value={supplier.supplierId}>
-                                    {supplier.supplierName} (ID: {supplier.supplierId})
+                                    {supplier.supplierName} - {supplier.supplierId}
                                 </option>
                             ))}
                         </select>

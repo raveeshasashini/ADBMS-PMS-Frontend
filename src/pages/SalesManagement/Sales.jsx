@@ -54,37 +54,56 @@ export default function Sales() {
 
 // funtion for pay button
   const handlePay = async () => {
-    if (settled < total) {
-      alert("The settled amount is less than the total. Please enter a valid amount.");
-      return;
-    }
-  
-    try {
-      // Send a POST request to the API to finalize the transaction
-      const response = await axios.post(`http://localhost:8080/api/salesManagement/pay/${user.branch_id}`);
-      
-      if (response.status === 200) {
-        alert("Payment successful!");
-        // Clear the cart and reset values
-        setCart([]);
-        setTotal(0);
-        setSettled(0);
-        setChange(0);
-        getStockList(); // Refresh stock list
 
-        try{
-            const response = await axios.post(`http://localhost:8080/api/salesManagement/insertAllSaleDetails`, cart)
-        }catch(err){
-            alert("Could not save sales detils");
-        }
+    //check is the cart empty
+    if(cart.length == 0){
+        alert("Cart is empty");
+        return;
 
-      } else {
-        alert("Payment failed. Please try again.");
+    }else{
+      if (settled < total) {
+        alert("The settled amount is less than the total. Please enter a valid amount.");
+        return;
       }
-    } catch (error) {
-      console.error("Payment Error:", error);
-      alert("An error occurred during the payment process.");
+    
+      try {
+        // Send a POST request to the API to finalize the transaction
+        const response = await axios.post(`http://localhost:8080/api/salesManagement/pay/${user.branch_id}`);
+        
+        if (response.status === 200) {
+          alert("Payment successful!");
+          // Clear the cart and reset values
+          setCart([]);
+          setTotal(0);
+          setSettled(0);
+          setChange(0);
+          getStockList(); // Refresh stock list
+  
+          try{
+              const response = await axios.post(`http://localhost:8080/api/salesManagement/insertAllSaleDetails`, cart)
+          }catch(err){
+              alert("Could not save sales detils");
+          }
+  
+        } else {
+          alert("Payment failed. Please try again.");
+        }
+      } catch (error) {
+        console.error("Payment Error:", error);
+        alert("An error occurred during the payment process.");
+      }
+
     }
+
+    
+  };
+
+
+  const handleRemove = () => {
+    setCart([]);
+    setTotal(0);
+    setSettled(0);
+    setChange(0);
   };
 
 
@@ -266,7 +285,7 @@ export default function Sales() {
           <p>Total: <span>{total.toFixed(2)}</span></p>
           <p>Settled: <input type="number" value={settled} onChange={(e) => setSettled(parseFloat(e.target.value) || 0)} /></p>
           <p>Change: <span>{(settled - total).toFixed(2)}</span></p>
-          <button>Remove</button>
+          <button onClick={handleRemove}>Remove</button>
           <button onClick={handlePay}>Pay</button>
         </div>
       </div>
