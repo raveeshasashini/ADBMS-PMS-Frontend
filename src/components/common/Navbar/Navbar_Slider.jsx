@@ -9,6 +9,7 @@ import Branches from '../../../pages/Branch Management/Branches';
 import Dashboard from '../../Dashboard/Dashboard';
 import Stock from '../../../pages/StockManagement/stock';
 import Sales from '../../../pages/SalesManagement/Sales';
+import StockReturn from '../../../pages/StockReturnManage/StockReturn';
 import UserHardDelete from '../../userHardDelete/UserHardDelete';
 
 
@@ -65,7 +66,7 @@ export default function Navbar_Slider() {
                     />
                     <p className="mt-2">Hi, {user.name}</p>
                 </div>
-                {['Dashboard','Branch Manage','Medicine Manage','Inventory', 'Supplier Manage', 'User Manage','Remove Users'].map((item, index) => (
+                {['Dashboard','Branch Manage','Medicine Manage', 'Supplier Manage', 'User Manage','Remove Users'].map((item, index) => (
                     <a 
                     key={index} 
                     className="nav-link text-white my-2 p-2 rounded border-danger" 
@@ -123,7 +124,10 @@ export default function Navbar_Slider() {
                     <Medicine/> // Display Reports Tab component when "Medicine" is active
                 ) :
                 activeComponent === 'Stock Manage' ? (
-                    <Stock/> // Display Reports Tab component when "Medicine" is active
+                    <Stock/> // Display Reports Tab component when "Stock" is active
+                ):
+                activeComponent === 'Stock Return Manage' ? (
+                    <StockReturn/> // Display Reports Tab component when "Stock Return" is active
                 ):
                 activeComponent==='Inventory'?(
                     <InventoryList/>
@@ -166,7 +170,7 @@ export default function Navbar_Slider() {
                     />
                     <p className="mt-2">Hi, Lakindu</p>
                 </div>
-                {['Dashboard','Sales','Stock Manage','Inventory', 'Supplier Manage', 'Report Generate'].map((item, index) => (
+                {['Dashboard','Sales','Stock Manage','Stock Return Manage','Inventory', 'Report Generate'].map((item, index) => (
                     <a 
                     key={index} 
                     className="nav-link text-white my-2 p-2 rounded border-danger" 
@@ -225,6 +229,9 @@ export default function Navbar_Slider() {
                 ) :
                 activeComponent === 'Stock Manage' ? (
                     <Stock/> // Display Reports Tab component when "Medicine" is active
+                ):
+                activeComponent === 'Stock Return Manage' ? (
+                    <StockReturn/> // Display Reports Tab component when "Stock Return" is active
                 ):
                 activeComponent==='Inventory'?(
                     <InventoryList/>
@@ -268,7 +275,7 @@ export default function Navbar_Slider() {
                     />
                     <p className="mt-2">Hi, Lakindu</p>
                 </div>
-                {['Dashboard','Sales','Stock Manage','Inventory', 'Supplier Manage'].map((item, index) => (
+                {['Dashboard','Sales','Stock Return Manage'].map((item, index) => (
                     <a 
                     key={index} 
                     className="nav-link text-white my-2 p-2 rounded border-danger" 
@@ -327,7 +334,10 @@ export default function Navbar_Slider() {
                 ) :
                 activeComponent === 'Stock Manage' ? (
                     <Stock/> // Display Reports Tab component when "Medicine" is active
-                ):
+                ) :
+                activeComponent === 'Stock Return Manage' ? (
+                    <StockReturn/> // Display Reports Tab component when "Stock Return" is active
+                ) :
                 activeComponent==='Inventory'?(
                     <InventoryList/>
                 )
