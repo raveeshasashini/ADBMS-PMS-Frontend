@@ -66,7 +66,7 @@ export default function Navbar_Slider() {
                     />
                     <p className="mt-2">Hi, {user.name}</p>
                 </div>
-                {['Dashboard','Branch Manage','Medicine Manage', 'Supplier Manage', 'User Manage','Remove Users'].map((item, index) => (
+                {['Dashboard','Branch Manage','Medicine Manage', 'Supplier Manage', 'User Manage','Remove Users','Report Generate'].map((item, index) => (
                     <a 
                     key={index} 
                     className="nav-link text-white my-2 p-2 rounded border-danger" 
@@ -378,7 +378,7 @@ export default function Navbar_Slider() {
                     />
                     <p className="mt-2">Hi, Lakindu</p>
                 </div>
-                {['Dashboard','Sales','Stock Manage','Inventory', 'Supplier Manage'].map((item, index) => (
+                {['Dashboard','Sales','Stock Manage','Inventory', 'Supplier Manage','Report Generate'].map((item, index) => (
                     <a 
                     key={index} 
                     className="nav-link text-white my-2 p-2 rounded border-danger" 
